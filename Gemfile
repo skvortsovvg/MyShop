@@ -70,4 +70,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'shoulda-matchers', '~> 5.0'
+  gem 'ffi'
 end
