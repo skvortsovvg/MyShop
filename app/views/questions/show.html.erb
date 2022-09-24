@@ -1,2 +1,69 @@
-<h1>Questions#show</h1>
-<p>Find me in app/views/questions/show.html.erb</p>
+<style type="text/css">
+  * {
+     box-sizing: border-box;
+}
+
+.question {
+    width:  50%;
+   height:auto;
+   padding:10px;
+   margin-bottom: 10px;
+}
+.title {
+   padding:10px;
+   font-size: 24px;
+   font-weight: bold;
+   background-color:#2124;
+   border:1px solid black;
+}
+.body {
+   padding:10px;
+   border:1px solid black;
+}
+
+h2 {
+  margin: 0px;
+}
+
+.answers, .answer div {
+  margin-left: 20px;
+}
+
+.answer {
+  margin-top: 10px;
+}
+
+.answer_date {
+  font-size: 12px;
+  font-style: italic;
+  color: grey;
+}
+</style>
+
+<h1>Question #<%= @question.id %></h1>
+
+  <article class="question">
+    <div class="title">
+      <%= @question.title %>
+    </div>
+    <div class="body">
+      <%= @question.body %>
+    </div>
+  </article>
+
+<section class="answers">
+  <h2>Answers:</h2>
+  <%= link_to "Add new answer", new_question_answer_path(@question) %>
+  
+
+  <% @question.answers.each do |answer| %>
+    <article class="answer"> 
+      <div>
+        <%= answer.body %>      
+      </div>
+      <div class="answer_date">
+        <%= answer.created_at %>
+      </div>
+    </article>
+  <% end %>
+</section>

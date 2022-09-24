@@ -1,2 +1,53 @@
-<h1>Questions#index</h1>
-<p>Find me in app/views/questions/index.html.erb</p>
+<style type="text/css">
+  * {
+     box-sizing: border-box;
+}
+
+.question {
+    width:  50%;
+   height:auto;
+   padding:10px;
+   margin-bottom: 10px;
+}
+.title {
+   padding:10px;
+   font-size: 24px;
+   font-weight: bold;
+   background-color:#2124;
+   border:1px solid black;
+}
+.body {
+   padding:10px;
+   border:1px solid black;
+}
+
+.links {
+    width: 100%;
+    margin-right: 15px;
+    text-align: right;
+}
+
+.links a {
+    display: inline-block;
+    margin: 5px;
+}
+</style>
+
+<h1>Questions</h1>
+
+<%= link_to "New", new_question_path  %> 
+
+<% @questions.each do |question| %>
+  <section class="question">
+    <div class="title">
+      <%= question.title %>
+    </div>
+    <div class="body">
+      <%= question.body %>
+    </div>
+    <div class="links">
+      <%= link_to "To answers (#{question.answers.count})...", question_path(question) if question.answers.count > 0 %> 
+      <%= link_to "Add new answer", new_question_answer_path(question) %> 
+    </div>
+  </section>
+<% end %>

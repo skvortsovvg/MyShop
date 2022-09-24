@@ -72,4 +72,5 @@ group :test do
   gem "webdrivers"
   gem 'shoulda-matchers', '~> 5.0'
   gem 'ffi'
+  gem 'rails-controller-testing'
 end
