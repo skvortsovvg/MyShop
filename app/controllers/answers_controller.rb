@@ -1,7 +1,4 @@
 class AnswersController < ApplicationController
-  def index
-  end
-
   def new
     @answer = Question.find(params[:question_id]).answers.new
   end
@@ -15,9 +12,9 @@ class AnswersController < ApplicationController
     end
   end
 
-private
-  
+  private
+
   def answer_params
-    params.require(:answer).permit(:body).merge({question_id: params[:question_id]})
+    params.require(:answer).permit(:body).merge({ question_id: params[:question_id] })
   end
 end

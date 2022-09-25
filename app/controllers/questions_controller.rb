@@ -22,11 +22,7 @@ class QuestionsController < ApplicationController
     end
   end
 
-private
-
-  def set_question
-    
-  end
+  private
 
   def question_params
     params.require(:question).permit(:title, :body)
