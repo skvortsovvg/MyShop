@@ -1,0 +1,16 @@
+<h1>New Answer</h1>
+
+<%= form_with model: [@answer.question, @answer] do |form| %>
+  <div>
+    <%= form.label :question %><br>
+    <%= form.text_field :question, value: @answer.question.body, disabled: true %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body, cols: 100, rows: 5 %>
+  </div>
+  <p>
+    <%= form.submit 'Create' %>
+  </p>
+<% end %>
