@@ -1,6 +1,6 @@
 <h1>New Answer</h1>
-
-<%= form_with model: [@answer.question, @answer] do |form| %>
+<%= render 'shared/errors', object: @answer %>
+<%= form_with model: [@answer.question, @answer], local: true do |form| %>
   <div>
     <%= form.label :question %><br>
     <%= form.text_field :question, value: @answer.question.body, disabled: true %>

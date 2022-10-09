@@ -51,11 +51,22 @@ h2 {
     </div>
   </article>
 
+<% if current_user %>
+  <section class="new_answer">
+    <%= form_with model: [@question, @question.answers.new], local: true do |form| %>
+      <div>
+        <%= form.label 'New answer' %><br>
+        <%= form.text_area :body, cols: 100, rows: 5 %>
+      </div>
+      <p>
+        <%= form.submit 'Add answer' %>
+      </p>
+    <% end %>
+  </section>
+<% end %>
+
 <section class="answers">
   <h2>Answers:</h2>
-  <%= link_to "Add new answer", new_question_answer_path(@question) %>
-  
-
   <% @question.answers.each do |answer| %>
     <article class="answer"> 
       <div>
@@ -64,6 +75,9 @@ h2 {
       <div class="answer_date">
         <%= answer.created_at %>
       </div>
+      <% if answer.author == current_user %>
+        <%= button_to "Delete", question_answer_path(@question, answer), method: :delete %>
+      <% end %>
     </article>
   <% end %>
 </section>

@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_question
 
   def new
@@ -7,10 +8,21 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.author = current_user
     if @answer.save
       redirect_to question_path(@answer.question)
     else
       render :new
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if @answer.author == current_user
+      @answer.destroy
+      redirect_to question_path(@answer.question), notice: "Answer was successfully deleted."
+    else
+      redirect_to root_path, alert: "Access dinied! Only author can delete it!"
     end
   end
 
