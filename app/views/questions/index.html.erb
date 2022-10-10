@@ -11,10 +11,12 @@
 }
 .title {
    padding:10px;
-   font-size: 24px;
+   font-size: 20px;
    font-weight: bold;
    background-color:#2124;
    border:1px solid black;
+   display: flex;
+   justify-content: space-between;
 }
 .body {
    padding:10px;
@@ -28,8 +30,13 @@
 }
 
 .links a {
-    display: inline-block;
-    margin: 5px;
+  display: inline-block;
+  margin: 5px;
+}
+
+.button_to {
+  display: inline-block;
+  border: none;
 }
 </style>
 
@@ -40,14 +47,18 @@
 <% @questions.each do |question| %>
   <section class="question">
     <div class="title">
-      <%= question.title %>
+      <div><%= question.title %></div>
+      <div><%= question.author&.email %></div>
     </div>
     <div class="body">
       <%= question.body %>
     </div>
     <div class="links">
       <%= link_to "To answers (#{question.answers.count})...", question_path(question) if question.answers.count > 0 %> 
-      <%= link_to "Add new answer", new_question_answer_path(question) %> 
+      <%= link_to "Add new answer", new_question_answer_path(question) %>
+      <% if question.author == current_user %>
+        <%= button_to "Delete", question_path(question), method: :delete %>
+      <% end %>
     </div>
   </section>
 <% end %>
