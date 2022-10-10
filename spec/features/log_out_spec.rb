@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'User can log out' do
-
   given(:user) { FactoryBot.create(:user) }
 
   scenario 'Signed in user tries to log out' do
@@ -10,5 +9,5 @@ feature 'User can log out' do
 
     click_on 'Logout'
     expect(page).to have_content 'successfully'
-  end 
+  end
 end

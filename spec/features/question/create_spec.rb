@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 feature 'User can create question' do
-
   describe 'Authenticated user' do
-
     background { sign_in(FactoryBot.create(:user)) }
 
     scenario 'tries to add new question' do

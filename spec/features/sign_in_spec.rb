@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'User can sing in' do
-  
   describe 'Authenticated user' do
     given(:user) { FactoryBot.create(:user) }
     background { sign_in(user) }
@@ -13,7 +12,7 @@ feature 'User can sing in' do
 
     scenario 'tries to register' do
       visit new_user_registration_path
-      expect(page).to have_content 'already signed in'    
+      expect(page).to have_content 'already signed in'
     end
   end
 

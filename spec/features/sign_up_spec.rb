@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'User can sing up' do
-
   background { visit new_user_registration_path }
 
   scenario 'New user tries to register' do
@@ -24,5 +23,4 @@ feature 'User can sing up' do
 
     expect(page).to have_content 'already been taken'
   end
- 
 end

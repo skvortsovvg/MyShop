@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { FactoryBot.create(:question) }
-  let(:answer) { FactoryBot.create(:answer, question: question) }
-  
+  let(:answer) { FactoryBot.create(:answer, question:) }
   let(:user) { FactoryBot.create(:user) }
   before { sign_in(user) }
-  
+
   describe "GET /new" do
     before { get :new, params: { question_id: question } }
 

@@ -22,14 +22,14 @@ class AnswersController < ApplicationController
       @answer.destroy
       redirect_to question_path(@answer.question), notice: "Answer was successfully deleted."
     else
-      redirect_to root_path, alert: "Access dinied! Only author can delete it!"
+      redirect_to root_path, alert: "Access denied! Only author can delete it!"
     end
   end
 
   private
 
   def set_question
-    @question = Question.find(params[:question_id]);
+    @question = Question.find(params[:question_id])
   end
 
   def answer_params

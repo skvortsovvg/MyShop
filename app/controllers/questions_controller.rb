@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_question, only: %i[show destroy]
 
   def index
     @questions = Question.all
@@ -24,14 +24,14 @@ class QuestionsController < ApplicationController
       @question.destroy
       redirect_to root_path, notice: "Question was successfully deleted."
     else
-      redirect_to question_path(@question), alert: "Access dinied! Only author can delete it!"
+      redirect_to question_path(@question), alert: "Access denied! Only author can delete it!"
     end
   end
 
   private
 
   def set_question
-    @question = Question.find(params[:id]);
+    @question = Question.find(params[:id])
   end
 
   def question_params
