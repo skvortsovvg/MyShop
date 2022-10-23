@@ -53,7 +53,7 @@ h2 {
 
 <% if current_user %>
   <section class="new_answer">
-    <%= form_with model: [@question, @question.answers.new], local: true do |form| %>
+    <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
       <div>
         <%= form.label 'New answer' %><br>
         <%= form.text_area :body, cols: 100, rows: 5 %>
