@@ -7,8 +7,9 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.author = current_user
+    @answer = @question.answers.create(body: answer_params[:body], author: current_user)
+    # @answer.save
+
     # if @answer.save
     #   redirect_to question_path(@answer.question)
     # else
@@ -20,9 +21,10 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     if @answer.author == current_user
       @answer.destroy
-      redirect_to question_path(@answer.question), notice: "Answer was successfully deleted."
+      # redirect_to question_path(@answer.question), notice: "Answer was successfully deleted."
     else
-      redirect_to root_path, alert: "Access denied! Only author can delete it!"
+      @answer.errors.add(:access, "Access denied! Only author can delete it!");
+      # redirect_to root_path, alert: "Access denied! Only author can delete it!"
     end
   end
 

@@ -1,0 +1,11 @@
+<article class="answer" id=<%= "answer_#{answer.id}" %>> 
+  <div>
+    <%= answer.body %>      
+  </div>
+  <div class="answer_date">
+    <%= answer.created_at %>
+  </div>
+  <% if answer.author == current_user %>
+    <%= button_to "Delete", question_answer_path(answer.question, answer), method: :delete, remote: true %>
+  <% end %>
+</article>

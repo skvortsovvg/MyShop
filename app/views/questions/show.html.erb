@@ -68,16 +68,6 @@ h2 {
 <section class="answers">
   <h2>Answers:</h2>
   <% @question.answers.each do |answer| %>
-    <article class="answer"> 
-      <div>
-        <%= answer.body %>      
-      </div>
-      <div class="answer_date">
-        <%= answer.created_at %>
-      </div>
-      <% if answer.author == current_user %>
-        <%= button_to "Delete", question_answer_path(@question, answer), method: :delete %>
-      <% end %>
-    </article>
+    <%= render answer %>
   <% end %>
 </section>
