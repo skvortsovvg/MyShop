@@ -1,5 +1,5 @@
 <% if object.errors.any? %>
-  <div style="color: red">
+  <div class="errors" style="color: red">
     <h2><%= t("errors.messages.not_saved", resource: object.class.to_s, count: object.errors.count) %>  </h2>
 
     <ul>

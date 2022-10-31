@@ -1,0 +1,14 @@
+answer = document.getElementById('<%= "answer_#{@answer.id}" %>');
+
+<% if @answer.errors.any? %>
+  answer.insertAdjacentHTML(
+    "afterbegin",
+    "<%= (j render 'shared/errors', object: @answer) %>"
+  );
+  // setTimeout(function () {
+  //   document.querySelector(".errors").remove();
+  // }, 2000);
+<% else %>
+  answer.innerHTML = '<%= j render @answer %>'
+<% end %>
+

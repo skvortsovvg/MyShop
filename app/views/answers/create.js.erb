@@ -1,3 +1,16 @@
 
+
 answers_list = document.querySelector(".answers");
-answers_list.insertAdjacentHTML('beforeend', "<%= (j render @answer) %>");
+
+<% if @answer.errors.any? %>
+  answers_list.insertAdjacentHTML(
+    "beforebegin",
+    "<%= (j render 'shared/errors', object: @answer) %>"
+  );
+  setTimeout(function () {
+    document.querySelector(".errors").remove();
+  }, 2000);
+<% else %>
+  answers_list.insertAdjacentHTML('beforeend', "<%= (j render @answer) %>");
+  document.getElementById("answer_body").value = "";
+<% end %>

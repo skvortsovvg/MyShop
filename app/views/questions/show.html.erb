@@ -38,6 +38,10 @@ h2 {
   font-style: italic;
   color: grey;
 }
+
+.edit_answer {
+  display: none;
+}
 </style>
 
 <h1>Question #<%= @question.id %></h1>
@@ -51,23 +55,33 @@ h2 {
     </div>
   </article>
 
-<% if current_user %>
-  <section class="new_answer">
-    <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
-      <div>
-        <%= form.label 'New answer' %><br>
-        <%= form.text_area :body, cols: 100, rows: 5 %>
-      </div>
-      <p>
-        <%= form.submit 'Add answer' %>
-      </p>
-    <% end %>
-  </section>
-<% end %>
-
-<section class="answers">
-  <h2>Answers:</h2>
-  <% @question.answers.each do |answer| %>
-    <%= render answer %>
+<div>
+  <% if current_user %>
+    <section class="new_answer">
+      <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
+        <div>
+          <%= form.label 'New answer' %><br>
+          <%= form.text_area :body, cols: 100, rows: 5 %>
+        </div>
+        <p>
+          <%= form.submit 'Add answer' %>
+        </p>
+      <% end %>
+    </section>
   <% end %>
-</section>
+
+  <section class="answers">
+    <h2>Answers:</h2>
+    <%= render @question.answers %>
+  </section>
+</div>
+<script type="text/javascript">
+  editBtns = document.querySelectorAll(".editBtn");
+  editBtns.forEach(function (btn) {
+    btn.addEventListener("click", () => {
+      answer_section = document.getElementById(`answer_${btn.dataset.answerId}`);
+      answer_section.querySelector('.edit_answer').classList.remove("edit_answer");
+      answer_section.querySelector('.answer_buttons').style.display = 'none';    
+    });
+  });
+</script>
