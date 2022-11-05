@@ -4,5 +4,8 @@ Rails.application.routes.draw do
 
   resources :questions do
     resources :answers
+      member do
+        put :best
+      end
   end
 end

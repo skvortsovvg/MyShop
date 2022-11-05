@@ -10,5 +10,14 @@ answer = document.getElementById('<%= "answer_#{@answer.id}" %>');
   // }, 2000);
 <% else %>
   answer.innerHTML = '<%= j render @answer %>'
+  answer.querySelector(".editBtn").addEventListener("click", (btn) => {
+      answer_section = document.getElementById(
+        `answer_${btn.target.dataset.answerId}`
+      );
+      answer_section
+        .querySelector(".edit_answer")
+        .classList.remove("edit_answer");
+      answer_section.querySelector(".answer_buttons").style.display = "none";
+    });
 <% end %>
 

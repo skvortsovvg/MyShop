@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy]
+  before_action :set_question, only: %i[show destroy update best]
 
   def index
     @questions = Question.all
@@ -10,6 +10,11 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new
   end
 
+  def best
+     @question.update(best_answer: Answer.find(params[:answer_id]))
+     redirect_to question_path(@question)
+  end
+
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
@@ -17,6 +22,10 @@ class QuestionsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def update
+    @question.update(question_params)
   end
 
   def destroy

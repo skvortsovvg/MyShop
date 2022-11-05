@@ -1,0 +1,19 @@
+question = document.querySelector('.question');
+
+<% if @question.errors.any? %>
+  question.insertAdjacentHTML(
+    "afterbegin",
+    "<%= (j render 'shared/errors', object: @question) %>"
+  );
+  // setTimeout(function () {
+  //   document.querySelector(".errors").remove();
+  // }, 2000);
+<% else %>
+  question.innerHTML = '<%= j render @question %>'
+  document.querySelector(".editQstBtn").addEventListener("click", (btn) => {
+    document.querySelector(".edit_question").style.display = "block";
+    document.querySelector(".question_body").style.display = "none";
+    btn.target.style.display = "none";
+  });
+<% end %>
+
