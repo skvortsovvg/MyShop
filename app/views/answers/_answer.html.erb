@@ -1,8 +1,8 @@
 <article class="answer" id=<%= "answer_#{answer.id}" %>>
     <div>
       <% if answer.question.best_answer == answer %>
-        <%= link_to image_tag('star-solid.svg', size: 15, style: 'width:50px'), html: { disabled: true} %>
-      <% else %>
+        <%= link_to image_tag('star-solid.svg', size: 15, style: 'width:50px') %>
+      <% elsif answer.question.author == current_user %>
         <%= link_to image_tag('star-regular.svg', size: 15, style: 'width:50px'), best_question_path(answer.question, answer_id: answer.id), method: "put" %>
       <% end %>
       <%= answer.body %>      

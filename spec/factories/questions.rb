@@ -4,4 +4,8 @@ FactoryBot.define do
     body { "MyText" }
     association :author, factory: :user
   end
+  trait :invalid_question do
+    title { "" }
+    body { "" }
+  end
 end

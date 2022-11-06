@@ -7,7 +7,9 @@
       <%= @question.body %>
     </div>
   </div>
-  <%= button_tag "Edit", data: { answer_id: @question.id }, class: "editQstBtn" %> 
+  <% if @question.author == current_user %>
+    <%= button_tag "Edit", data: { answer_id: @question.id }, class: "editQstBtn" %> 
+  <% end %>
   <section class="edit_question">
     <%= form_with model: @question, local: false do |form| %>
     <div>

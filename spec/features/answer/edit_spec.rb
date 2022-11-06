@@ -39,12 +39,6 @@ feature 'User can edit answer' do
         expect(page).to have_selector "textarea"
       end 
     end
-
-    scenario 'tries to edit not his own anwer' do
-      # visit question_path(question)
-      # click_on 'Add answer'
-      # expect(page).to have_content 'prohibited'
-    end
   end
 
 end
