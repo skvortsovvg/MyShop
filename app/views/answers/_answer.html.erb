@@ -1,0 +1,29 @@
+<article class="answer" id=<%= "answer_#{answer.id}" %>>
+    <div>
+      <% if answer.question.best_answer == answer %>
+        <%= link_to image_tag('star-solid.svg', size: 15, style: 'width:50px') %>
+      <% elsif answer.question.author == current_user %>
+        <%= link_to image_tag('star-regular.svg', size: 15, style: 'width:50px'), best_question_path(answer.question, answer_id: answer.id), method: "put" %>
+      <% end %>
+      <%= answer.body %>      
+    </div>
+    <div class="answer_date">
+      <%= answer.created_at %>
+    </div>
+  <section class="edit_answer" id=<%= "edit_answer_#{answer.id}" %>>
+    <%= form_with model: [answer.question, answer], local: false do |form| %>
+      <div>
+        <%= form.text_area :body, cols: 100, rows: 5 %>
+      </div>
+      <p>
+        <%= form.submit 'Save' %>
+      </p>
+    <% end %>
+  </section>
+  <div class='answer_buttons'>
+    <% if answer.author == current_user %>
+      <%= button_tag "Edit", data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn" %> 
+      <%= button_to "Delete", question_answer_path(answer.question, answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
+    <% end %>
+  </div>
+</article>

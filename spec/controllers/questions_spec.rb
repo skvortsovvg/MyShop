@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:question) { FactoryBot.create(:question) }
   let(:user) { FactoryBot.create(:user) }
+
   before { sign_in(user) }
 
   describe "GET /index" do
@@ -12,12 +14,11 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:questions)).to match_array(questions)
     end
     it 'check for render index' do
-      expect(response).to render_template(:index)
+      expect(response).to render_template :index
     end
   end
 
   describe "GET /new" do
-    let(:question) { FactoryBot.create(:question) }
     before { get :new }
 
     it 'check for new question' do
@@ -25,7 +26,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     it 'check for render new' do
-      expect(response).to render_template(:new)
+      expect(response).to render_template :new
     end
   end
 
@@ -36,7 +37,30 @@ RSpec.describe QuestionsController, type: :controller do
       end
       it 'check for render new question' do
         post :create, params: { question: { title: '123', body: 'texxt' } }
-        expect(response).to redirect_to(:root)
+        expect(response).to redirect_to :root
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    context 'valid changes' do
+      it "succeed" do
+        patch :update, params: { id: question.id, question: { body: 'new text question' } }, format: :js
+        question.reload
+        expect(question.body).to eq 'new text question'
+      end
+      it 'render changes to view' do
+        patch :update, params: { id: question.id, question: { body: 'new text question' } }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+    context 'invalid changes' do
+      it "error" do
+        expect { patch :update, params: { id: question.id, question: FactoryBot.attributes_for(:question, :invalid_question) }, format: :js }.to_not change(question, :body)
+      end
+      it 'render with errors' do
+        patch :update, params: { id: question.id, question: FactoryBot.attributes_for(:question, :invalid_question) }, format: :js
+        expect(response).to render_template :update
       end
     end
   end
@@ -58,7 +82,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
     it 'render question form with error' do
       post :create, params: { question: { title: '123', body: nil } }
-      expect(response).to render_template(:new)
+      expect(response).to render_template :new
     end
   end
 end

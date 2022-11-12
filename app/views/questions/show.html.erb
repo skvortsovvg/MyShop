@@ -3,22 +3,24 @@
      box-sizing: border-box;
 }
 
-.question {
-    width:  50%;
-   height:auto;
-   padding:10px;
-   margin-bottom: 10px;
+.question, .edit_question {
+  width: 50%;
+  height: auto;
+  padding:10px;
+  margin-bottom: 10px;
 }
+
 .title {
-   padding:10px;
-   font-size: 24px;
-   font-weight: bold;
-   background-color:#2124;
-   border:1px solid black;
+  padding:10px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color:#2124;
+  border:1px solid black;
 }
-.body {
-   padding:10px;
-   border:1px solid black;
+.text {
+  padding:10px;
+  margin-bottom: 5px;
+  border:1px solid black;
 }
 
 h2 {
@@ -38,46 +40,57 @@ h2 {
   font-style: italic;
   color: grey;
 }
+
+.edit_answer, .edit_question {
+  display: none;
+}
 </style>
 
 <h1>Question #<%= @question.id %></h1>
 
-  <article class="question">
-    <div class="title">
-      <%= @question.title %>
-    </div>
-    <div class="body">
-      <%= @question.body %>
-    </div>
-  </article>
+<article class="question">
+  <%= render @question %>
+</article>
 
-<% if current_user %>
-  <section class="new_answer">
-    <%= form_with model: [@question, @question.answers.new], local: true do |form| %>
-      <div>
-        <%= form.label 'New answer' %><br>
-        <%= form.text_area :body, cols: 100, rows: 5 %>
-      </div>
-      <p>
-        <%= form.submit 'Add answer' %>
-      </p>
-    <% end %>
-  </section>
-<% end %>
-
-<section class="answers">
-  <h2>Answers:</h2>
-  <% @question.answers.each do |answer| %>
-    <article class="answer"> 
-      <div>
-        <%= answer.body %>      
-      </div>
-      <div class="answer_date">
-        <%= answer.created_at %>
-      </div>
-      <% if answer.author == current_user %>
-        <%= button_to "Delete", question_answer_path(@question, answer), method: :delete %>
+<div>
+  <% if current_user %>
+    <section class="new_answer">
+      <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
+        <div>
+          <%= form.label 'New answer' %><br>
+          <%= form.text_area :body, cols: 100, rows: 5 %>
+        </div>
+        <p>
+          <%= form.submit 'Add answer' %>
+        </p>
       <% end %>
-    </article>
+    </section>
   <% end %>
-</section>
+
+  <section class="answers">
+    <h2>Answers:</h2>
+    <%= render Question.answers_best_first(@question) %>
+  </section>
+</div>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", () => {
+    editBtns = document.querySelectorAll(".editBtn");
+    editBtns.forEach(function (btn) {
+      btn.addEventListener("click", () => {
+        answer_section = document.getElementById(
+          `answer_${btn.dataset.answerId}`
+        );
+        answer_section
+          .querySelector(".edit_answer")
+          .classList.remove("edit_answer");
+        answer_section.querySelector(".answer_buttons").style.display = "none";
+      });
+    });
+    editQstBtn = document.querySelector(".editQstBtn");
+    editQstBtn.addEventListener("click", () => {
+        document.querySelector(".edit_question").style.display = "block";
+        document.querySelector(".question_body").style.display = "none";
+        document.querySelector(".editQstBtn").style.display = "none";
+      });
+  });
+</script>
