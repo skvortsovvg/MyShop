@@ -23,6 +23,16 @@ feature 'User can create question' do
 
       expect(page).to have_content 'prohibited'
     end
+
+    scenario 'add new question with file attach' do
+      fill_in 'Title', with: 'New test question'
+      fill_in 'Body', with: 'Texttextext'
+
+      attach_file "File", "#{Rails.root}/spec/rails_helper.rb"
+      click_on 'Create'
+
+      expect(page).to have_link 'rails_helper.rb'
+    end
   end
 
   scenario 'Unauthenticated user tries to add new question' do

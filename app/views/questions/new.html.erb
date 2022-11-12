@@ -10,6 +10,10 @@
     <%= form.label :body %><br>
     <%= form.text_area :body, cols: 100, rows: 5 %>
   </div>
+  <div>
+      <%= form.label :file %><br>
+      <%= form.file_field :file %>
+    </div>
   <p>
     <%= form.submit 'Create' %>
   </p>

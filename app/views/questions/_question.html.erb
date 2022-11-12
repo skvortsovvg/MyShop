@@ -6,6 +6,11 @@
     <div class="text">
       <%= @question.body %>
     </div>
+    <% if @question.file.attached? %>
+      <div>
+        <%= link_to @question.file.filename.to_s, url_for(@question.file) %>
+      </div>
+    <% end %>
   </div>
   <% if @question.author == current_user %>
     <%= button_tag "Edit", data: { answer_id: @question.id }, class: "editQstBtn" %> 
@@ -20,7 +25,8 @@
       <%= form.label :body %><br>
       <%= form.text_area :body, cols: 100, rows: 5 %>
     </div>
-    <%= form.submit 'Save' %>
+      <%= form.submit 'Save' %>
     <% end %>
+
   </section>
 
