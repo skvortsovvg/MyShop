@@ -11,8 +11,8 @@
     <%= form.text_area :body, cols: 100, rows: 5 %>
   </div>
   <div>
-      <%= form.label :file %><br>
-      <%= form.file_field :file %>
+      <%= form.label :files %><br>
+      <%= form.file_field :files, multiple: true %>
     </div>
   <p>
     <%= form.submit 'Create' %>

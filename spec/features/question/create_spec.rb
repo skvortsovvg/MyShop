@@ -12,7 +12,7 @@ feature 'User can create question' do
       fill_in 'Body', with: 'Texttextext'
       click_on 'Create'
 
-      expect(page).to have_content 'Questions'
+      expect(page).to have_content 'Question'
       expect(page).to have_content 'New test question'
       expect(page).to have_content 'Texttextext'
     end
@@ -24,14 +24,15 @@ feature 'User can create question' do
       expect(page).to have_content 'prohibited'
     end
 
-    scenario 'add new question with file attach' do
+    scenario 'add new question with attached files' do
+      visit new_question_path
       fill_in 'Title', with: 'New test question'
       fill_in 'Body', with: 'Texttextext'
 
-      attach_file "File", "#{Rails.root}/spec/rails_helper.rb"
+      attach_file "Files", ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Create'
-
       expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 

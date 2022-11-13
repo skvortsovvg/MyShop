@@ -6,14 +6,16 @@
     <div class="text">
       <%= @question.body %>
     </div>
-    <% if @question.file.attached? %>
+    <% if @question.files.attached? %>
       <div>
-        <%= link_to @question.file.filename.to_s, url_for(@question.file) %>
+        <% @question.files.each do |file| %>
+          <p><%= link_to file.filename.to_s, url_for(file) %></p>
+        <% end %>
       </div>
     <% end %>
   </div>
   <% if @question.author == current_user %>
-    <%= button_tag "Edit", data: { answer_id: @question.id }, class: "editQstBtn" %> 
+    <%= button_tag "Edit", data: { answer_id: @question.id }, class: "editQstBtn" %>
   <% end %>
   <section class="edit_question">
     <%= form_with model: @question, local: false do |form| %>
