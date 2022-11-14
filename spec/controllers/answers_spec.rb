@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { FactoryBot.create(:question) }
-  let(:answer) { FactoryBot.create(:answer, question: question) }
+  let(:answer) { FactoryBot.create(:answer, question:) }
   let(:user) { FactoryBot.create(:user) }
   before { sign_in(user) }
 
@@ -34,13 +34,13 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: { body: nil }, format: :js } }.to_not change(Answer, :count)
       end
       it 'render with error' do
-        post :create, params: { question_id: question, answer: { body: nil },  format: :js }
+        post :create, params: { question_id: question, answer: { body: nil }, format: :js }
         expect(response).to render_template :create
       end
     end
   end
 
-   describe "PATCH /update" do
+  describe "PATCH /update" do
     context 'valid changes' do
       it "succeed" do
         patch :update, params: { question_id: question, id: answer.id, answer: { body: 'new text' } }, format: :js
@@ -54,7 +54,9 @@ RSpec.describe AnswersController, type: :controller do
     end
     context 'invalid changes' do
       it "error" do
-        expect { patch :update, params: { question_id: question, id: answer.id, answer: FactoryBot.attributes_for(:answer, :invalid) }, format: :js }.to_not change(answer, :body)
+        expect do
+          patch :update, params: { question_id: question, id: answer.id, answer: FactoryBot.attributes_for(:answer, :invalid) }, format: :js
+        end.to_not change(answer, :body)
       end
       it 'render errors to view' do
         patch :update, params: { question_id: question, id: answer.id, answer: FactoryBot.attributes_for(:answer, :invalid) }, format: :js

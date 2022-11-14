@@ -1,18 +1,17 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: [:create, :new]
-  before_action :set_answer, only: [:edit, :destroy, :update, :delete_file]
+  before_action :set_question, only: %i[create new]
+  before_action :set_answer, only: %i[edit destroy update delete_file]
 
   def new
     @answer = @question.answers.new
   end
 
   def create
-    @answer = @question.answers.create(answer_params.merge({author: current_user}))
+    @answer = @question.answers.create(answer_params.merge({ author: current_user }))
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @answer.update(answer_params)
@@ -28,7 +27,7 @@ class AnswersController < ApplicationController
       @answer.destroy
       # redirect_to question_path(@answer.question), notice: "Answer was successfully deleted."
     else
-      @answer.errors.add(:access, "Access denied! Only author can delete it!");
+      @answer.errors.add(:access, "Access denied! Only author can delete it!")
       # redirect_to root_path, alert: "Access denied! Only author can delete it!"
     end
   end
@@ -42,7 +41,7 @@ class AnswersController < ApplicationController
   def set_answer
     @answer = Answer.with_attached_files.find(params[:id])
   end
-  
+
   def answer_params
     params.require(:answer).permit(:body, files: [])
   end

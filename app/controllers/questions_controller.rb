@@ -11,8 +11,8 @@ class QuestionsController < ApplicationController
   end
 
   def best
-     @question.update(best_answer: Answer.find(params[:answer_id]))
-     redirect_to question_path(@question)
+    @question.update(best_answer: Answer.find(params[:answer_id]))
+    redirect_to question_path(@question)
   end
 
   def create
