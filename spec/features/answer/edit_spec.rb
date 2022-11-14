@@ -28,6 +28,18 @@ feature 'User can edit answer' do
       end 
     end
 
+    scenario 'tries to add files while editing own answer', js: true do
+      visit question_path(question)
+      click_on "Edit"
+      within ".answers" do
+        fill_in "Body", with: "edited answer"
+        attach_file "Files", ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on "Save"
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end 
+    end
+
     scenario 'tries to edit own answer with errors', js: true do
       visit question_path(question)
       click_on "Edit"

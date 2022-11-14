@@ -14,7 +14,7 @@ answers_list = document.querySelector(".answers");
   document.getElementById("answer_files").value = "";
 
   answer_section = document.getElementById(
-          `answer_${@answer.id}`
+          `answer_${<%= @answer.id %>}`
         );
      
   answer_section.querySelector(".editBtn").addEventListener("click", () => {

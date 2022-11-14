@@ -34,7 +34,7 @@
       </div>
       <div>
         <%= form.label :files %><br>
-        <%= form.file_field :files, multiple: true %>
+        <%= form.file_field :files, multiple: true, direct_upload: true %>
       </div>
         
       <%= form.submit 'Save' %>
