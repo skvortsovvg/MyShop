@@ -8,4 +8,5 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   scope :answers_best_first, -> (qst) { qst.answers.where(id: qst.best_answer) + qst.answers.where.not(id: qst.best_answer) }
+
 end

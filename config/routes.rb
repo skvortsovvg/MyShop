@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :answers
       member do
         put :best
+        delete :delete_file
       end
   end
 end
