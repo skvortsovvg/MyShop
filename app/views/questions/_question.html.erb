@@ -9,9 +9,11 @@
     <% if @question.files.attached? %>
       <div>
         <% @question.files.each do |file| %>
-          <p id=<%="file_#{file.id}"%>>
+          <p id=<%="file_#{file.id}" %>>
             <%= link_to file.filename.to_s, url_for(file) %>
-            <%= link_to image_tag('trash-can-solid.svg', size: 12), { controller: "questions", action: "delete_file", id: question, file_id: file }, method: :delete, remote: true %>
+            <% if @question.author == current_user %>
+              <%= link_to image_tag('trash-can-solid.svg', size: 12), { controller: "questions", action: "delete_file", id: question, file_id: file }, method: :delete, remote: true %>
+              <% end %>
           </p>
         <% end %>
       </div>

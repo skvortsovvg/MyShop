@@ -11,4 +11,5 @@ answers_list = document.querySelector(".answers");
 <% else %>
   answers_list.insertAdjacentHTML('beforeend', "<%= (j render @answer) %>");
   document.getElementById("answer_body").value = "";
+  document.getElementById("answer_files").value = "";
 <% end %>
