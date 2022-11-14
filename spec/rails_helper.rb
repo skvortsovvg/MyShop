@@ -71,7 +71,6 @@ RSpec.configure do |config|
 
   config.after(:all) do
     FileUtils.rm_rf("#{Rails.root}/tmp/storage")
-    FileUtils.rm_rf("#{Rails.root}/storage")
   end
 end
 
