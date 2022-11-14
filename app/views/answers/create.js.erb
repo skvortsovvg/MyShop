@@ -12,4 +12,15 @@ answers_list = document.querySelector(".answers");
   answers_list.insertAdjacentHTML('beforeend', "<%= (j render @answer) %>");
   document.getElementById("answer_body").value = "";
   document.getElementById("answer_files").value = "";
+
+  answer_section = document.getElementById(
+          `answer_${@answer.id}`
+        );
+     
+  answer_section.querySelector(".editBtn").addEventListener("click", () => {
+        answer_section
+          .querySelector(".edit_answer")
+          .classList.remove("edit_answer");
+        answer_section.querySelector(".answer_buttons").style.display = "none";
+      });
 <% end %>

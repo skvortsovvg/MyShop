@@ -15,7 +15,7 @@
         <% answer.files.each do |file| %>
           <p id=<%="file_#{file.id}"%>>
             <%= link_to file.filename.to_s, url_for(file) %>
-            <% if @question.author == current_user %>
+            <% if answer.author == current_user %>
               <%= link_to image_tag('trash-can-solid.svg', size: 12), delete_file_question_answer_path(question_id: answer.question, id: answer, file_id: file), method: :delete %>
             <% end %>
           </p>
@@ -26,6 +26,10 @@
     <%= form_with model: [answer.question, answer], local: false do |form| %>
       <div>
         <%= form.text_area :body, cols: 100, rows: 5 %>
+      </div>
+      <div>
+        <%= form.label :files %><br>
+        <%= form.file_field :files, multiple: true %>
       </div>
       <p>
         <%= form.submit 'Save' %>
