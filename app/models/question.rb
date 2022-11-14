@@ -7,5 +7,5 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  scope :answers_best_first, ->(qst) { qst.answers.with_attached_files.where(id: qst.best_answer) + qst.answers.with_attached_files.where.not(id: qst.best_answer) }
+  scope :answers_best_first, ->(qst) { qst.answers.where(id: qst.best_answer) + qst.answers.where.not(id: qst.best_answer) }
 end
