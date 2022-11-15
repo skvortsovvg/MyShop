@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.new
+    @question.links.new
   end
 
   def best
@@ -26,6 +27,8 @@ class QuestionsController < ApplicationController
 
   def show
     @question.links.new
+    @new_answer = @question.answers.new
+    @new_answer.links.new
   end
 
   def delete_file

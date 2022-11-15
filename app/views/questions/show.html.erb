@@ -41,7 +41,7 @@ h2 {
   color: grey;
 }
 
-.edit_answer, .edit_question {
+.edit_question {
   display: none;
 }
 </style>
@@ -55,7 +55,7 @@ h2 {
 <div>
   <% if current_user %>
     <section class="new_answer">
-      <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
+      <%= form_with model: [@question, @new_answer], local: false do |form| %>
         <div>
           <%= form.label 'New answer' %><br>
           <%= form.text_area :body, cols: 100, rows: 5 %>
@@ -63,6 +63,19 @@ h2 {
         <div>
           <%= form.label :files %><br>
           <%= form.file_field :files, multiple: true, direct_upload: true %>
+        </div>
+        </div>
+          Links:
+          <%= form.fields_for :links do |link| %><br>
+            <div>
+              <%= link.label :name %><br>
+              <%= link.text_field :name %>
+            </div>
+            <div>
+              <%= link.label :url %><br>
+              <%= link.text_field :url %>
+            </div>
+          <% end %>
         </div>
         <p>
           <%= form.submit 'Add answer' %>
@@ -78,18 +91,6 @@ h2 {
 </div>
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", () => {
-    editBtns = document.querySelectorAll(".editBtn");
-    editBtns.forEach(function (btn) {
-      btn.addEventListener("click", () => {
-        answer_section = document.getElementById(
-          `answer_${btn.dataset.answerId}`
-        );
-        answer_section
-          .querySelector(".edit_answer")
-          .classList.remove("edit_answer");
-        answer_section.querySelector(".answer_buttons").style.display = "none";
-      });
-    });
     editQstBtn = document.querySelector(".editQstBtn");
     editQstBtn.addEventListener("click", () => {
         document.querySelector(".edit_question").style.display = "block";

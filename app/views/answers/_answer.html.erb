@@ -22,23 +22,22 @@
         <% end %>
       </div>
     <% end %>
-  <section class="edit_answer" id=<%= "edit_answer_#{answer.id}" %>>
-    <%= form_with model: [answer.question, answer], local: false do |form| %>
+    <% if answer.links.any? %>
       <div>
-        <%= form.text_area :body, cols: 100, rows: 5 %>
+        Links:
+        <% answer.links.each do |link| %>
+          <p id=<%="link_#{link.id}" %>>
+            <%= link_to link.name, link.url %>
+            <% if answer.author == current_user %>
+              <%= link_to image_tag('trash-can-solid.svg', size: 12), delete_link_question_answer_path(question_id: answer.question, id: answer, file_id: link), method: :delete, remote: true %>
+              <% end %>
+          </p>
+        <% end %>
       </div>
-      <div>
-        <%= form.label :files %><br>
-        <%= form.file_field :files, multiple: true, direct_upload: true %>
-      </div>
-      <p>
-        <%= form.submit 'Save' %>
-      </p>
     <% end %>
-  </section>
   <div class='answer_buttons'>
     <% if answer.author == current_user %>
-      <%= button_tag "Edit", data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn" %> 
+      <%= button_to "Edit", question_answer_path(answer.question, answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
       <%= button_to "Delete", question_answer_path(answer.question, answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
     <% end %>
   </div>
