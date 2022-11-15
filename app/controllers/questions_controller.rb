@@ -63,6 +63,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], regard_attributes: [:name, :image], links_attributes: [:id, :name, :url])
+    params.require(:question).permit(:title, :body, files: [], regard_attributes: %i[name image], links_attributes: %i[id name url])
   end
 end

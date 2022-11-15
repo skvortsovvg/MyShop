@@ -24,7 +24,7 @@ RSpec.describe QuestionsController, type: :controller do
     it 'check for new question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
-    
+
     it 'check for new links' do
       expect(assigns(:question).links.first).to be_a_new(Link)
     end
