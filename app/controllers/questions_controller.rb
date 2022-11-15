@@ -8,7 +8,6 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.new
-    @question.links.new
   end
 
   def best
@@ -25,6 +24,10 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def show
+    @question.links.new
+  end
+
   def delete_file
     @file_id = params[:file_id]
     @question.files.find_by(id: @file_id).purge
@@ -37,6 +40,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
+    @question.links.new
   end
 
   def destroy
