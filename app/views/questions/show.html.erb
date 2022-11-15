@@ -60,6 +60,10 @@ h2 {
           <%= form.label 'New answer' %><br>
           <%= form.text_area :body, cols: 100, rows: 5 %>
         </div>
+        <div>
+          <%= form.label :files %><br>
+          <%= form.file_field :files, multiple: true, direct_upload: true %>
+        </div>
         <p>
           <%= form.submit 'Add answer' %>
         </p>

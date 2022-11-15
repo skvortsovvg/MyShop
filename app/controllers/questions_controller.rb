@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy update best]
+  before_action :set_question, only: %i[show destroy update best delete_file]
 
   def index
     @questions = Question.all
@@ -11,17 +11,22 @@ class QuestionsController < ApplicationController
   end
 
   def best
-     @question.update(best_answer: Answer.find(params[:answer_id]))
-     redirect_to question_path(@question)
+    @question.update(best_answer: Answer.find(params[:answer_id]))
+    redirect_to question_path(@question)
   end
 
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
-      redirect_to :root
+      redirect_to question_path(@question)
     else
       render :new
     end
+  end
+
+  def delete_file
+    @file_id = params[:file_id]
+    @question.files.find_by(id: @file_id).purge
   end
 
   def update
@@ -40,10 +45,10 @@ class QuestionsController < ApplicationController
   private
 
   def set_question
-    @question = Question.find(params[:id])
+    @question = Question.with_attached_files.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end

@@ -6,21 +6,39 @@
     <div class="text">
       <%= @question.body %>
     </div>
+    <% if @question.files.attached? %>
+      <div>
+        <% @question.files.each do |file| %>
+          <p id=<%="file_#{file.id}" %>>
+            <%= link_to file.filename.to_s, url_for(file) %>
+            <% if @question.author == current_user %>
+              <%= link_to image_tag('trash-can-solid.svg', size: 12), { controller: "questions", action: "delete_file", id: question, file_id: file }, method: :delete, remote: true %>
+              <% end %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <% if @question.author == current_user %>
-    <%= button_tag "Edit", data: { answer_id: @question.id }, class: "editQstBtn" %> 
+    <%= button_tag "Edit", class: "editQstBtn" %>
   <% end %>
   <section class="edit_question">
     <%= form_with model: @question, local: false do |form| %>
-    <div>
-      <%= form.label :title %><br>
-      <%= form.text_field :title %>
-    </div>
-    <div>
-      <%= form.label :body %><br>
-      <%= form.text_area :body, cols: 100, rows: 5 %>
-    </div>
-    <%= form.submit 'Save' %>
+      <div>
+        <%= form.label :title %><br>
+        <%= form.text_field :title %>
+      </div>
+      <div>
+        <%= form.label :body %><br>
+        <%= form.text_area :body, cols: 100, rows: 5 %>
+      </div>
+      <div>
+        <%= form.label :files %><br>
+        <%= form.file_field :files, multiple: true, direct_upload: true %>
+      </div>
+        
+      <%= form.submit 'Save' %>
     <% end %>
+
   </section>
 

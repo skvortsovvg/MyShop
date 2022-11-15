@@ -3,9 +3,14 @@ Rails.application.routes.draw do
   root "questions#index"
 
   resources :questions do
-    resources :answers
+    resources :answers do
       member do
-        put :best
+        delete :delete_file
       end
+    end
+    member do
+      put :best
+      delete :delete_file
+    end
   end
 end

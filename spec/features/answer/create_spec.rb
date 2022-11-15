@@ -7,7 +7,7 @@ feature 'User can create answer' do
 
     given(:question) { FactoryBot.create(:question) }
 
-    scenario 'tries to add new question' do
+    scenario 'tries to add new answer' do
       visit question_path(question)
       fill_in 'answer[body]', with: 'New answer text'
       click_on 'Add answer'
@@ -18,6 +18,15 @@ feature 'User can create answer' do
       visit question_path(question)
       click_on 'Add answer'
       expect(page).to have_content 'prohibited'
+    end
+
+    scenario 'add new answer with attached files', js: true do
+      visit new_question_path
+      fill_in 'answer[body]', with: 'New answer text'
+      attach_file "answer[files][]", ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Add answer'
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
