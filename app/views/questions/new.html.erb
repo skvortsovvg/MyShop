@@ -5,7 +5,6 @@
     <%= form.label :title %><br>
     <%= form.text_field :title %>
   </div>
-
   <div>
     <%= form.label :body %><br>
     <%= form.text_area :body, cols: 100, rows: 5 %>
@@ -13,6 +12,19 @@
   <div>
     <%= form.label :files %><br>
     <%= form.file_field :files, multiple: true, direct_upload: true %>
+  </div>
+  <div>
+    Links:
+    <%= form.fields_for :links do |link| %><br>
+      <div>
+        <%= link.label :name %><br>
+        <%= link.text_field :name %>
+      </div>
+      <div>
+        <%= link.label :url %><br>
+        <%= link.text_field :url %>
+      </div>
+    <% end %>
   </div>
   <p>
     <%= form.submit 'Create' %>

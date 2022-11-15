@@ -8,11 +8,25 @@
     </div>
     <% if @question.files.attached? %>
       <div>
+        Attachments:
         <% @question.files.each do |file| %>
           <p id=<%="file_#{file.id}" %>>
             <%= link_to file.filename.to_s, url_for(file) %>
             <% if @question.author == current_user %>
               <%= link_to image_tag('trash-can-solid.svg', size: 12), { controller: "questions", action: "delete_file", id: question, file_id: file }, method: :delete, remote: true %>
+              <% end %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @question.links.any? %>
+      <div>
+        Links:
+        <% @question.links.each do |link| %>
+          <p id=<%="link_#{link.id}" %>>
+            <%= link_to link.name, link.url %>
+            <% if @question.author == current_user %>
+              <%= link_to image_tag('trash-can-solid.svg', size: 12), { controller: "questions", action: "delete_link", id: question, link_id: link }, method: :delete, remote: true %>
               <% end %>
           </p>
         <% end %>
@@ -35,6 +49,19 @@
       <div>
         <%= form.label :files %><br>
         <%= form.file_field :files, multiple: true, direct_upload: true %>
+      </div>
+      <div>
+        Links:
+        <%= form.fields_for :links do |link| %><br>
+          <div>
+            <%= link.label :name %><br>
+            <%= link.text_field :name %>
+          </div>
+          <div>
+            <%= link.label :url %><br>
+            <%= link.text_field :url %>
+          </div>
+        <% end %>
       </div>
         
       <%= form.submit 'Save' %>
