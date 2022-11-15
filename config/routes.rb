@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  get 'regards/regards'
   devise_for :users
+  get 'users/regards', to: 'regards#index'
+
   root "questions#index"
 
   resources :questions do

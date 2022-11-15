@@ -14,14 +14,27 @@
     <%= form.file_field :files, multiple: true, direct_upload: true %>
   </div>
   <div>
+    Regard for the best answer:
+    <%= form.fields_for :regard do |regard| %><br>
+      <div>
+        <%= regard.label :name, "Regard title" %><br>
+        <%= regard.text_field :name %>
+      </div>
+      <div>
+        <%= regard.label :image, "Image URL" %><br>
+        <%= regard.text_field :image %>
+      </div>
+    <% end %>
+  </div>
+  <div>
     Links:
     <%= form.fields_for :links do |link| %><br>
       <div>
-        <%= link.label :name %><br>
+        <%= link.label :name, "Link name" %><br>
         <%= link.text_field :name %>
       </div>
       <div>
-        <%= link.label :url %><br>
+        <%= link.label :url, "Source URL" %><br>
         <%= link.text_field :url %>
       </div>
     <% end %>

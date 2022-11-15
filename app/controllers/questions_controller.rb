@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
   def new
     @question = current_user.questions.new
     @question.links.new
+    @question.build_regard
   end
 
   def best
@@ -62,6 +63,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: [:id, :name, :url])
+    params.require(:question).permit(:title, :body, files: [], regard_attributes: [:name, :image], links_attributes: [:id, :name, :url])
   end
 end
