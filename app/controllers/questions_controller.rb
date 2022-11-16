@@ -27,7 +27,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question.links.new
     @new_answer = @question.answers.new
     @new_answer.links.new
   end
@@ -44,7 +43,6 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
-    @question.links.new
   end
 
   def destroy

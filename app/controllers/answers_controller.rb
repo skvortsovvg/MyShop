@@ -7,7 +7,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.create(answer_params.merge({ author: current_user }))
   end
 
-  def show
+  def edit
     @answer.links.new
   end
 
@@ -18,11 +18,6 @@ class AnswersController < ApplicationController
   def delete_file
     @file_id = params[:file_id]
     @answer.files.find_by(id: @file_id).purge
-  end
-
-  def delete_link
-    @link_id = params[:link_id]
-    @answer.links.find_by(id: @link_id).destroy
   end
 
   def destroy

@@ -29,7 +29,7 @@
           <p id=<%="link_#{link.id}" %>>
             <%= link_to link.name, link.url %>
             <% if answer.author == current_user %>
-              <%= link_to image_tag('trash-can-solid.svg', size: 12), delete_link_question_answer_path(question_id: answer.question, id: answer, file_id: link), method: :delete, remote: true %>
+              <%= link_to image_tag('trash-can-solid.svg', size: 12), link_path(link), method: :delete, remote: true %>
               <% end %>
           </p>
         <% end %>
@@ -37,7 +37,7 @@
     <% end %>
   <div class='answer_buttons'>
     <% if answer.author == current_user %>
-      <%= button_to "Edit", question_answer_path(answer.question, answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
+      <%= button_to "Edit", edit_question_answer_path(answer.question, answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
       <%= button_to "Delete", question_answer_path(answer.question, answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
     <% end %>
   </div>
