@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy update best delete_file]
+  before_action :set_question, except: %i[index new create]
 
   def index
     @questions = Question.all
@@ -8,6 +8,8 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.new
+    @question.links.new
+    @question.build_regard
   end
 
   def best
@@ -24,9 +26,19 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def show
+    @new_answer = @question.answers.new
+    @new_answer.links.new
+  end
+
   def delete_file
     @file_id = params[:file_id]
     @question.files.find_by(id: @file_id).purge
+  end
+
+  def delete_link
+    @link_id = params[:link_id]
+    @question.links.find_by(id: @link_id).destroy
   end
 
   def update
@@ -49,6 +61,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], regard_attributes: %i[name image], links_attributes: %i[id name url])
   end
 end

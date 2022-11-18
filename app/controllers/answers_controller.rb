@@ -1,17 +1,15 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: %i[create new]
-  before_action :set_answer, only: %i[edit destroy update delete_file]
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :set_question, only: %i[create]
+  before_action :set_answer, except: %i[create]
 
   def create
     @answer = @question.answers.create(answer_params.merge({ author: current_user }))
   end
 
-  def edit; end
+  def edit
+    @answer.links.new
+  end
 
   def update
     @answer.update(answer_params)
@@ -43,6 +41,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url])
   end
 end

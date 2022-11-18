@@ -1,0 +1,12 @@
+<h1>My regards:</h1>
+
+<% @regards.each do |regard| %>
+  <article>
+    <h2><%= regard.question.title %></h2>
+    <div>
+      <%= image_tag(regard.image, size: 25) if regard.image %> 
+      <span><%= regard.name %></span>
+    </div>
+  </article>
+  <hr>
+<% end %>

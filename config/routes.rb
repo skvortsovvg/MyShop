@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  get 'regards/regards'
   devise_for :users
-  root "questions#index"
+  get 'users/regards', to: 'regards#index'
 
+  root "questions#index"
+  
   resources :questions do
     resources :answers do
       member do
@@ -13,4 +16,7 @@ Rails.application.routes.draw do
       delete :delete_file
     end
   end
+
+  resources :links, only: :destroy
+
 end

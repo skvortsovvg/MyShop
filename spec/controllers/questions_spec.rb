@@ -25,6 +25,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
+    it 'check for new links' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
+    end
+
     it 'check for render new' do
       expect(response).to render_template :new
     end
@@ -37,7 +41,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
       it 'check for render new question' do
         post :create, params: { question: { title: '123', body: 'texxt' } }
-        expect(response).to redirect_to :root
+        expect(response).to redirect_to question_path(Question.last)
       end
     end
   end

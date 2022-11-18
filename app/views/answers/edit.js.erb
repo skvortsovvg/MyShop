@@ -1,0 +1,5 @@
+answer_section = document.getElementById(
+  `answer_${<%=@answer.id%>}`
+);
+
+answer_section.innerHTML = '<%= j render "edit_answer" %>'
