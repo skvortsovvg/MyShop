@@ -5,10 +5,16 @@
       <% elsif answer.question.author == current_user %>
         <%= link_to image_tag('star-regular.svg', size: 15, style: 'width:50px'), best_question_path(answer.question, answer_id: answer.id), method: "put" %>
       <% end %>
-      <%= answer.body %>     
+      <%= answer.body %>
     </div>
     <div class="answer_date">
       <%= answer.created_at %>
+    </div>
+    <div>
+      <% if answer.author != current_user and current_user %>
+        <%= link_to image_tag('thumbs-up-regular.svg', size: 16), "#", method: :delete, remote: true %><span><%= answer.votes.where(like: true).count %></span>
+        <%= link_to image_tag('thumbs-down-regular.svg', size: 16), "#", method: :delete, remote: true %><span><%= answer.votes.where(like: false).count %></span>
+      <% end %>
     </div>
     <% if answer.files.attached? %>
       <div>
