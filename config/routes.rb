@@ -5,10 +5,12 @@ Rails.application.routes.draw do
 
   root "questions#index"
   
-  resources :questions do
+  resources :questions, shallow: true do
     resources :answers do
       member do
         delete :delete_file
+        put :like
+        put :dislike
       end
     end
     member do

@@ -1,0 +1,8 @@
+
+<% if answer.author != current_user and current_user %>
+  <% vote = answer.votes.find_by(user: current_user) %>
+  <% likes = answer.votes.group(:like).count %>
+  <%= link_to image_tag(
+                !vote || !vote.like ? 'thumbs-up-regular.svg' : 'thumbs-up-solid.svg', size: 16), like_answer_path(answer, {like: true}), method: :put, remote: true %><span><%= likes[true] ? likes[true] : 0 %></span>
+  <%= link_to image_tag(!vote || vote.like ? 'thumbs-down-regular.svg' : 'thumbs-down-solid.svg', size: 16), like_answer_path(answer, {like: false}), method: :put, remote: true %><span><%= likes[false] ? likes[false] : 0 %></span>
+<% end %>

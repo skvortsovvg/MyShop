@@ -15,6 +15,19 @@ class AnswersController < ApplicationController
     @answer.update(answer_params)
   end
 
+  def like #or dislike
+    vote = @answer.votes.find_by(user: current_user);
+    like = params[:like] 
+
+    if !vote 
+      @answer.votes.create(user: current_user, like: like);
+    elsif vote.like.to_s == like
+      vote.destroy
+    else
+      vote.update(like: like)
+    end
+  end
+
   def delete_file
     @file_id = params[:file_id]
     @answer.files.find_by(id: @file_id).purge

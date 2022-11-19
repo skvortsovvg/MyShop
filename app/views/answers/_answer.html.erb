@@ -1,21 +1,20 @@
 <article class="answer" id=<%= "answer_#{answer.id}" %>>
     <div>
-      <% if answer.question.best_answer == answer %>
+      <% if answer.question.best_answer_id == answer.id %>
         <%= link_to image_tag('star-solid.svg', size: 15, style: 'width:50px') %>
       <% elsif answer.question.author == current_user %>
-        <%= link_to image_tag('star-regular.svg', size: 15, style: 'width:50px'), best_question_path(answer.question, answer_id: answer.id), method: "put" %>
+        <%= link_to image_tag('star-regular.svg', size: 15, style: 'width:50px'), best_question_path(answer.question, answer_id: answer.id), method: :put %>
       <% end %>
       <%= answer.body %>
     </div>
     <div class="answer_date">
       <%= answer.created_at %>
     </div>
-    <div>
-      <% if answer.author != current_user and current_user %>
-        <%= link_to image_tag('thumbs-up-regular.svg', size: 16), "#", method: :delete, remote: true %><span><%= answer.votes.where(like: true).count %></span>
-        <%= link_to image_tag('thumbs-down-regular.svg', size: 16), "#", method: :delete, remote: true %><span><%= answer.votes.where(like: false).count %></span>
-      <% end %>
+
+    <div id="<%="answer_#{answer.id}_likes"%>">
+      <%= render "answers/likes", answer: answer %>
     </div>
+
     <% if answer.files.attached? %>
       <div>
         <% answer.files.each do |file| %>
@@ -43,8 +42,8 @@
     <% end %>
   <div class='answer_buttons'>
     <% if answer.author == current_user %>
-      <%= button_to "Edit", edit_question_answer_path(answer.question, answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
-      <%= button_to "Delete", question_answer_path(answer.question, answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
+      <%= button_to "Edit", edit_answer_path(answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
+      <%= button_to "Delete", answer_path(answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
     <% end %>
   </div>
 </article>

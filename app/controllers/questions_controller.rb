@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
   end
 
   def best
-    @question.update(best_answer: Answer.find(params[:answer_id]))
+    @question.update(best_answer_id: params[:answer_id])
     redirect_to question_path(@question)
   end
 
