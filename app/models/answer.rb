@@ -12,15 +12,14 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def current_vote(user)
-    votes.find_by(user: user)
+    votes.find_by(user:)
   end
 
   def likes
-    {true => 0, false => 0}.merge(votes.group(:like).count)
+    { true => 0, false => 0 }.merge(votes.group(:like).count)
   end
 
   def rating
     likes[true] - likes[false]
   end
-
 end

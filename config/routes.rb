@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'users/regards', to: 'regards#index'
 
   root "questions#index"
-  
+
   resources :questions, shallow: true do
     resources :answers do
       member do
@@ -20,5 +20,4 @@ Rails.application.routes.draw do
   end
 
   resources :links, only: :destroy
-
 end

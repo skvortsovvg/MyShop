@@ -14,17 +14,28 @@ class AnswersController < ApplicationController
     @answer.update(answer_params)
   end
 
-  def like #or dislike
-    vote = @answer.votes.find_by(user: current_user);
-    like = params[:like] 
+  def like # or dislike
+    vote = @answer.current_vote(current_user)
+    like = params[:like]
 
-    if !vote 
-      @answer.votes.create(user: current_user, like: like);
+    if !vote
+      @answer.votes.create(user: current_user, like: like)
     elsif vote.like.to_s == like
       vote.destroy
     else
       vote.update(like: like)
     end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json do
+        render json: { 
+          answer_id: @answer.id, 
+          rating: @answer.rating, 
+          html: render_to_string(partial: 'answers/likes', locals: {answer: @answer}, :formats => [:html]) }
+      end
+    end
+
   end
 
   def delete_file

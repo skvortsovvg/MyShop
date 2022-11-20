@@ -103,4 +103,10 @@ h2 {
         document.querySelector(".editQstBtn").style.display = "none";
       });
   });
+  document.addEventListener("ajax:success", (resp) => {
+    jsonData = resp.detail[0];
+    answer_section = document.getElementById(`answer_${jsonData.answer_id}`);
+    answer_section.querySelector(".answer_likes").innerHTML = jsonData.html;
+    answer_section.querySelector(".answer_rating").innerText = jsonData.rating;
+  });
 </script>
