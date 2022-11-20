@@ -1,10 +1,11 @@
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
-  belongs_to :author, class_name: "User"
-  has_one :regard, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
+  belongs_to :author, class_name: "User"
+  belongs_to :best_answer, class_name: "Answer"
+  belongs_to :regard
 
-  # accepts_nested_attributes_for :links, :regard, reject_if: :all_blank
+  accepts_nested_attributes_for :links, :regard, reject_if: :all_blank
 
   has_many_attached :files
 

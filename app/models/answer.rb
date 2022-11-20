@@ -10,4 +10,17 @@ class Answer < ApplicationRecord
   has_many_attached :files
 
   validates :body, presence: true
+
+  def current_vote(user)
+    votes.find_by(user: user)
+  end
+
+  def likes
+    {true => 0, false => 0}.merge(votes.group(:like).count)
+  end
+
+  def rating
+    likes[true] - likes[false]
+  end
+
 end

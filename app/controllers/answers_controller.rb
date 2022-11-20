@@ -1,10 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_question, only: %i[create]
   before_action :set_answer, except: %i[create]
 
   def create
-    @answer = @question.answers.create(answer_params.merge({ author: current_user }))
+    @answer = @question.answers.create(answer_params.merge(author: current_user))
   end
 
   def edit

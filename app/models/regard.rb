@@ -1,5 +1,5 @@
 class Regard < ApplicationRecord
-  belongs_to :question
+  has_one :question
 
   scope :users_regards, lambda { |user|
                           # Question.joins("INNER JOIN answers ON answers.id = questions.best_answer_id AND questions.regard_id IS NOT NULL").where('answers.author_id = :author', author: user)

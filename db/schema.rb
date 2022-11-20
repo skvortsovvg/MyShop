@@ -69,17 +69,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_111915) do
     t.datetime "updated_at", null: false
     t.bigint "author_id"
     t.bigint "best_answer_id"
+    t.bigint "regard_id"
     t.index ["author_id"], name: "index_questions_on_author_id"
     t.index ["best_answer_id"], name: "index_questions_on_best_answer_id"
+    t.index ["regard_id"], name: "index_questions_on_regard_id"
   end
 
   create_table "regards", force: :cascade do |t|
     t.string "name"
     t.string "image"
-    t.bigint "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_regards_on_question_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -110,8 +110,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_111915) do
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
   add_foreign_key "questions", "answers", column: "best_answer_id"
+  add_foreign_key "questions", "regards"
   add_foreign_key "questions", "users", column: "author_id"
-  add_foreign_key "regards", "questions"
   add_foreign_key "votes", "answers"
   add_foreign_key "votes", "users"
 end
