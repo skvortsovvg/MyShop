@@ -4,11 +4,13 @@ Rails.application.routes.draw do
   get 'users/regards', to: 'regards#index'
 
   root "questions#index"
-  
-  resources :questions do
+
+  resources :questions, shallow: true do
     resources :answers do
       member do
         delete :delete_file
+        put :like
+        put :dislike
       end
     end
     member do
@@ -18,5 +20,4 @@ Rails.application.routes.draw do
   end
 
   resources :links, only: :destroy
-
 end

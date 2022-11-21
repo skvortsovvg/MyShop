@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_15_124720) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_18_111915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,17 +69,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_124720) do
     t.datetime "updated_at", null: false
     t.bigint "author_id"
     t.bigint "best_answer_id"
+    t.bigint "regard_id"
     t.index ["author_id"], name: "index_questions_on_author_id"
     t.index ["best_answer_id"], name: "index_questions_on_best_answer_id"
+    t.index ["regard_id"], name: "index_questions_on_regard_id"
   end
 
   create_table "regards", force: :cascade do |t|
     t.string "name"
     t.string "image"
-    t.bigint "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_regards_on_question_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,11 +94,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_124720) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "answer_id", null: false
+    t.boolean "like", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_votes_on_answer_id"
+    t.index ["user_id", "answer_id"], name: "index_votes_on_user_id_and_answer_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
   add_foreign_key "questions", "answers", column: "best_answer_id"
+  add_foreign_key "questions", "regards"
   add_foreign_key "questions", "users", column: "author_id"
-  add_foreign_key "regards", "questions"
+  add_foreign_key "votes", "answers"
+  add_foreign_key "votes", "users"
 end

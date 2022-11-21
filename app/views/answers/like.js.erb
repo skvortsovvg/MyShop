@@ -1,0 +1,3 @@
+answer_section = document.getElementById("<%="answer_#{@answer.id}" %>");
+answer_section.querySelector(".answer_likes").innerHTML = "<%= j render 'answers/likes', answer: @answer %>";
+answer_section.querySelector(".answer_rating").innerText = <%= @answer.rating %>

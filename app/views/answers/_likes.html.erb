@@ -1,0 +1,7 @@
+
+  <%= link_to_if(answer.author != current_user && current_user, image_tag(answer.current_vote(current_user)&.like == true ? 'thumbs-up-solid.svg' : 'thumbs-up-regular.svg', size: 16), 
+        like_answer_path(answer, {like: true}), method: :put, remote: true, data: { type: 'json' } )%>
+        <span><%= answer.likes[true] %></span>
+  <%= link_to_if(answer.author != current_user && current_user, image_tag(answer.current_vote(current_user)&.like == false ? 'thumbs-down-solid.svg' : 'thumbs-down-regular.svg', size: 16), 
+        like_answer_path(answer, {like: false}), method: :put, remote: true, data: { type: 'json' } )%>
+        <span><%= answer.likes[false] %></span>

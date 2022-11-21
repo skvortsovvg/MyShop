@@ -1,10 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_question, only: %i[create]
   before_action :set_answer, except: %i[create]
 
   def create
-    @answer = @question.answers.create(answer_params.merge({ author: current_user }))
+    @answer = @question.answers.create(answer_params.merge(author: current_user))
   end
 
   def edit
@@ -13,6 +12,30 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(answer_params)
+  end
+
+  def like # or dislike
+    vote = @answer.current_vote(current_user)
+    like = params[:like]
+
+    if !vote
+      @answer.votes.create(user: current_user, like:)
+    elsif vote.like.to_s == like
+      vote.destroy
+    else
+      vote.update(like:)
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json do
+        render json: {
+          answer_id: @answer.id,
+          rating: @answer.rating,
+          html: render_to_string(partial: 'answers/likes', locals: { answer: @answer }, formats: [:html])
+        }
+      end
+    end
   end
 
   def delete_file

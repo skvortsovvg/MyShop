@@ -1,5 +1,5 @@
 <section id=<%= "edit_answer_#{@answer.id}" %>>
-    <%= form_with model: [@answer.question, @answer], local: false do |form| %>
+    <%= form_with model: @answer, local: false do |form| %>
       <div>
         <%= form.text_area :body, cols: 100, rows: 5 %>
       </div>

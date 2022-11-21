@@ -1,15 +1,21 @@
 <article class="answer" id=<%= "answer_#{answer.id}" %>>
     <div>
+      <span class="answer_rating" style="font-size: 20px;"><%= answer.rating %></span>
       <% if answer.question.best_answer == answer %>
-        <%= link_to image_tag('star-solid.svg', size: 15, style: 'width:50px') %>
-      <% elsif answer.question.author == current_user %>
-        <%= link_to image_tag('star-regular.svg', size: 15, style: 'width:50px'), best_question_path(answer.question, answer_id: answer.id), method: "put" %>
+        <%= image_tag('star-solid.svg', size: 15, style: 'width:20px') %>
+      <% else %>
+        <%= link_to_if(answer.question.author == current_user, image_tag('star-regular.svg', size: 15, style: 'width:20px;  margin-right: 10px'), best_question_path(answer.question, answer_id: answer.id), method: :put) %>
       <% end %>
-      <%= answer.body %>     
+      <%= answer.body %>
     </div>
     <div class="answer_date">
       <%= answer.created_at %>
     </div>
+
+    <div class="answer_likes">
+      <%= render "answers/likes", answer: answer %>
+    </div>
+
     <% if answer.files.attached? %>
       <div>
         <% answer.files.each do |file| %>
@@ -37,8 +43,8 @@
     <% end %>
   <div class='answer_buttons'>
     <% if answer.author == current_user %>
-      <%= button_to "Edit", edit_question_answer_path(answer.question, answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
-      <%= button_to "Delete", question_answer_path(answer.question, answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
+      <%= button_to "Edit", edit_answer_path(answer), data: { answer_id: answer.id }, style: 'display:inline-block;', class: "editBtn", method: :get, remote: true %> 
+      <%= button_to "Delete", answer_path(answer), form: {style: 'display:inline-block;'}, method: :delete, remote: true %>
     <% end %>
   </div>
 </article>

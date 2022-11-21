@@ -44,6 +44,11 @@ h2 {
 .edit_question {
   display: none;
 }
+
+.disable {
+   pointer-events: none;
+   cursor: default;
+}
 </style>
 
 <h1>Question #<%= @question.id %></h1>
@@ -97,5 +102,11 @@ h2 {
         document.querySelector(".question_body").style.display = "none";
         document.querySelector(".editQstBtn").style.display = "none";
       });
+  });
+  document.addEventListener("ajax:success", (resp) => {
+    jsonData = resp.detail[0];
+    answer_section = document.getElementById(`answer_${jsonData.answer_id}`);
+    answer_section.querySelector(".answer_likes").innerHTML = jsonData.html;
+    answer_section.querySelector(".answer_rating").innerText = jsonData.rating;
   });
 </script>
