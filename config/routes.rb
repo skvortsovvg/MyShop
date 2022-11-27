@@ -5,19 +5,26 @@ Rails.application.routes.draw do
 
   root "questions#index"
 
-  resources :questions, shallow: true do
-    resources :answers do
+  concern :commentable do
+    post :comments, action: :new_comment
+  end
+
+  concern :delete_file do
+    delete :delete_file
+  end
+
+  resources :questions, concerns: [:commentable, :delete_file], shallow: true do
+    resources :answers, concerns: [:commentable, :delete_file] do
       member do
-        delete :delete_file
         put :like
-        put :dislike
       end
     end
     member do
       put :best
-      delete :delete_file
     end
   end
 
   resources :links, only: :destroy
+
+  mount ActionCable.server => '/cable'
 end

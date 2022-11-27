@@ -1,8 +1,9 @@
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
+  has_many :comments, dependent: :destroy, as: :commentable
   belongs_to :author, class_name: "User"
-  belongs_to :best_answer, class_name: "Answer"
+  belongs_to :best_answer, class_name: "Answer", optional: true
   belongs_to :regard
 
   accepts_nested_attributes_for :links, :regard, reject_if: :all_blank

@@ -1,71 +1,70 @@
 
-  <div class="question_body">
-    <div class="title">
-      <%= @question.title %>
-    </div>
-    <div class="text">
-      <%= @question.body %>
-    </div>
-    <% if @question.files.attached? %>
-      <div>
-        Attachments:
-        <% @question.files.each do |file| %>
-          <p id=<%="file_#{file.id}" %>>
-            <%= link_to file.filename.to_s, url_for(file) %>
-            <% if @question.author == current_user %>
-              <%= link_to image_tag('trash-can-solid.svg', size: 12), { controller: "questions", action: "delete_file", id: question, file_id: file }, method: :delete, remote: true %>
-              <% end %>
-          </p>
-        <% end %>
-      </div>
-    <% end %>
-    <% if @question.links.any? %>
-      <div>
-        Links:
-        <% @question.links.each do |link| %>
-          <p id=<%="link_#{link.id}" %>>
-            <%= link_to link.name, link.url %>
-            <% if @question.author == current_user and !link.new_record? %>
-              <%= link_to image_tag('trash-can-solid.svg', size: 12), link_path(link), method: :delete %>
-            <% end %>
-          </p>
-        <% end %>
-      </div>
-    <% end %>
+<div class="question_body">
+  <div class="title">
+    <%= question.title %>
   </div>
-  <% if @question.author == current_user %>
-    <%= button_tag "Edit", class: "editQstBtn" %>
+  <div class="text">
+    <%= question.body %>
+  </div>
+  <% if question.files.attached? %>
+    <div>
+      Attachments:
+      <% question.files.each do |file| %>
+        <p id=<%="file_#{file.id}" %>>
+          <%= link_to file.filename.to_s, url_for(file) %>
+          <% if question.author == current_user %>
+            <%= link_to image_tag('trash-can-solid.svg', size: 12), question_delete_file_path(question, file_id: file), method: :delete, remote: true %>
+            <% end %>
+        </p>
+      <% end %>
+    </div>
   <% end %>
-  <section class="edit_question">
-    <%= form_with model: @question, local: false do |form| %>
-      <div>
-        <%= form.label :title %><br>
-        <%= form.text_field :title %>
-      </div>
-      <div>
-        <%= form.label :body %><br>
-        <%= form.text_area :body, cols: 100, rows: 5 %>
-      </div>
-      <div>
-        <%= form.label :files %><br>
-        <%= form.file_field :files, multiple: true, direct_upload: true %>
-      </div>
-      <div>
-        Links:
-        <%= form.fields_for :links do |link| %><br>
-          <div>
-            <%= link.label :name %><br>
-            <%= link.text_field :name %>
-          </div>
-          <div>
-            <%= link.label :url %><br>
-            <%= link.text_field :url %>
-          </div>
-        <% end %>
-      </div>
-        
-      <%= form.submit 'Save' %>
-    <% end %>
-
-  </section>
+  <% if question.links.any? %>
+    <div>
+      Links:
+      <% question.links.each do |link| %>
+        <p id=<%="link_#{link.id}" %>>
+          <%= link_to link.name, link.url %>
+          <% if question.author == current_user and !link.new_record? %>
+            <%= link_to image_tag('trash-can-solid.svg', size: 12), link_path(link), method: :delete %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<% if question.author == current_user %>
+  <%= button_tag "Edit", class: "editQstBtn" %>
+<% end %>
+<section class="edit_question">
+  <%= form_with model: question, local: false do |form| %>
+    <div>
+      <%= form.label :title %><br>
+      <%= form.text_field :title %>
+    </div>
+    <div>
+      <%= form.label :body %><br>
+      <%= form.text_area :body, cols: 100, rows: 5 %>
+    </div>
+    <div>
+      <%= form.label :files %><br>
+      <%= form.file_field :files, multiple: true, direct_upload: true %>
+    </div>
+    <div>
+      Links:
+      <%= form.fields_for :links do |link| %><br>
+        <div>
+          <%= link.label :name %><br>
+          <%= link.text_field :name %>
+        </div>
+        <div>
+          <%= link.label :url %><br>
+          <%= link.text_field :url %>
+        </div>
+      <% end %>
+    </div>
+      
+    <%= form.submit 'Save' %>
+  <% end %>
+</section>
 
