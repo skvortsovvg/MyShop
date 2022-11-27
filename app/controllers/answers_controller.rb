@@ -41,13 +41,15 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
-    ActionCable.server.broadcast 'answers', 
-      { html: ApplicationController.render(
-          partial: 'answers/answer',
-          locals: {answer: @answer, current_user: current_user}),
-        answer_id: @answer.id,
-        current_user: current_user.id,
-        author_id: @answer.author.id }
+
+    ActionCable.server.broadcast 'answers',
+                                 { html: ApplicationController.render(
+                                   partial: 'answers/answer',
+                                   locals: { answer: @answer, current_user: }
+                                 ),
+                                   answer_id: @answer.id,
+                                   current_user: current_user.id,
+                                   author_id: @answer.author.id }
   end
 
   def new_comment
@@ -58,14 +60,16 @@ class AnswersController < ApplicationController
 
   def publish_comment
     return if @comment.errors.any?
-    ActionCable.server.broadcast 'comments', 
-      { html: ApplicationController.render(
-          partial: 'comments/comment',
-          locals: { comment: @comment }),
-        commentable_type: @comment.commentable_type,
-        commentable_id: @comment.commentable_id,
-        comment_id: @comment.id,
-        author_id: @comment.author.id }
+
+    ActionCable.server.broadcast 'comments',
+                                 { html: ApplicationController.render(
+                                   partial: 'comments/comment',
+                                   locals: { comment: @comment }
+                                 ),
+                                   commentable_type: @comment.commentable_type,
+                                   commentable_id: @comment.commentable_id,
+                                   comment_id: @comment.id,
+                                   author_id: @comment.author.id }
   end
 
   def delete_file
@@ -99,5 +103,5 @@ class AnswersController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body)
-  end  
+  end
 end

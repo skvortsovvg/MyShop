@@ -13,8 +13,8 @@ Rails.application.routes.draw do
     delete :delete_file
   end
 
-  resources :questions, concerns: [:commentable, :delete_file], shallow: true do
-    resources :answers, concerns: [:commentable, :delete_file] do
+  resources :questions, concerns: %i[commentable delete_file], shallow: true do
+    resources :answers, concerns: %i[commentable delete_file] do
       member do
         put :like
       end

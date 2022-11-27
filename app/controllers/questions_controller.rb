@@ -64,10 +64,12 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
-    ActionCable.server.broadcast 'questions', 
-      ApplicationController.render( 
-        partial: 'questions/question_card',
-        locals: {question: @question, current_user: current_user})
+
+    ActionCable.server.broadcast 'questions',
+                                 ApplicationController.render(
+                                   partial: 'questions/question_card',
+                                   locals: { question: @question, current_user: }
+                                 )
   end
 
   def set_question
