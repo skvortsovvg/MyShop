@@ -22,5 +22,3 @@ createConsumer().subscriptions.create("CommentChannel", {
     }
   }
 });
-
-

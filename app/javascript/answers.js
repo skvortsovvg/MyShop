@@ -51,5 +51,3 @@ createConsumer().subscriptions.create("AnswerChannel", {
     };
   }
 });
-
-
