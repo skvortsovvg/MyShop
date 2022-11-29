@@ -1,8 +1,30 @@
+import { createConsumer } from "@rails/actioncable";
 
-// import { createConsumer } from "@rails/actioncable";
+export function SubscribeQuestions() {
+  createConsumer().subscriptions.create("QuestionChannel", {
+
+    connected() {
+      this.perform('follow')
+    },
+
+    received(data) {
+      var questions_list = document.getElementById("questions");
+      questions_list.insertAdjacentHTML('beforeend', data);
+    }
+  });
+
+  var listQst = document.getElementsByClassName("question");
+  for (var qst of listQst) {
+    var listBtn = qst.getElementsByClassName("controlBtn");
+    for (var btn of listBtn) {
+      if(gon.user_id == qst.dataset['authorId']){
+        btn.style.display = "block";
+      }
+    }
+  };
+}
 
 export function SubscribeAnswers(question_id) {
-
   createConsumer().subscriptions.create( {channel: "AnswerChannel", id: question_id}, {
 
     connected() {
@@ -52,6 +74,33 @@ export function SubscribeAnswers(question_id) {
           btn.style.display = "inline-block";
         }
       };
+    }
+  });
+}
+
+export function SubscribeComments(question_id) {
+  createConsumer().subscriptions.create({channel: "CommentChannel", id: question_id}, {
+
+    connected() {
+      this.perform('follow')
+    },
+
+    received(data) {
+      if(data.commentable_type == "Answer"){
+       
+        var answer = document.getElementById(
+              `answer_${data.commentable_id}`
+            );
+        
+        console.log(data);
+        var comments_list = answer.querySelector(".answer_comments");
+        comments_list.insertAdjacentHTML('beforeend', data.html);
+
+        answer.querySelector("#comment_body").value = "";
+        btn = answer.querySelector(".collapse");
+        btn.classList.toggle("active");
+        btn.nextElementSibling.style.display = "none";
+      }
     }
   });
 }

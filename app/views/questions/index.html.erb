@@ -47,3 +47,8 @@
 <section id="questions">
   <%= render partial: "question_card", collection: @questions, as: :question %>
 </section>
+
+<script type="module">
+  import { SubscribeQuestions } from "channels"
+  SubscribeQuestions();
+</script>

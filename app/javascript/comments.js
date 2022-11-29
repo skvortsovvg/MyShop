@@ -1,24 +1,28 @@
+// import { createConsumer } from "@rails/actioncable";
 
-createConsumer().subscriptions.create("CommentChannel", {
+export function SubscribeComments(question_id) {
 
-  connected() {
-    this.perform('follow')
-  },
+  createConsumer().subscriptions.create({channel: "CommentChannel", id: question_id}, {
 
-  received(data) {
-    if(data.commentable_type == "Answer"){
-     
-      var answer = document.getElementById(
-            `answer_${data.commentable_id}`
-          );
-     
-      var comments_list = answer.querySelector(".answer_comments");
-      comments_list.insertAdjacentHTML('beforeend', data.html);
+    connected() {
+      this.perform('follow')
+    },
 
-      answer.querySelector("#comment_body").value = "";
-      btn = answer.querySelector(".collapse");
-      btn.classList.toggle("active");
-      btn.nextElementSibling.style.display = "none";
+    received(data) {
+      if(data.commentable_type == "Answer"){
+       
+        var answer = document.getElementById(
+              `answer_${data.commentable_id}`
+            );
+        
+        var comments_list = answer.querySelector(".answer_comments");
+        comments_list.insertAdjacentHTML('beforeend', data.html);
+
+        answer.querySelector("#comment_body").value = "";
+        btn = answer.querySelector(".collapse");
+        btn.classList.toggle("active");
+        btn.nextElementSibling.style.display = "none";
+      }
     }
-  }
-});
+  });
+}

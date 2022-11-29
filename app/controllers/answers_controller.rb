@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
+    nil
   end
 
   def edit
@@ -42,14 +43,14 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    ActionCable.server.broadcast 'answers',
-                                 { html: ApplicationController.render(
-                                   partial: 'answers/answer',
-                                   locals: { answer: @answer, current_user: }
-                                 ),
-                                   answer_id: @answer.id,
-                                   current_user: current_user.id,
-                                   author_id: @answer.author.id }
+    AnswerChannel.broadcast_to(@answer.question,
+                               { html: ApplicationController.render(
+                                 partial: 'answers/answer',
+                                 locals: { answer: @answer, current_user: }
+                               ),
+                                 answer_id: @answer.id,
+                                 current_user: current_user.id,
+                                 author_id: @answer.author.id })
   end
 
   def new_comment
@@ -61,15 +62,15 @@ class AnswersController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
 
-    ActionCable.server.broadcast 'comments',
-                                 { html: ApplicationController.render(
-                                   partial: 'comments/comment',
-                                   locals: { comment: @comment }
-                                 ),
-                                   commentable_type: @comment.commentable_type,
-                                   commentable_id: @comment.commentable_id,
-                                   comment_id: @comment.id,
-                                   author_id: @comment.author.id }
+    CommentChannel.broadcast_to(@answer.question,
+                                { html: ApplicationController.render(
+                                  partial: 'comments/comment',
+                                  locals: { comment: @comment }
+                                ),
+                                  commentable_type: @comment.commentable_type,
+                                  commentable_id: @comment.commentable_id,
+                                  comment_id: @comment.id,
+                                  author_id: @comment.author.id })
   end
 
   def delete_file

@@ -131,6 +131,12 @@ h2 {
   <%= render Question.answers_best_first(@question) %>
 </section>
 
+<script type="module">
+  import { SubscribeAnswers, SubscribeComments } from "channels"
+  SubscribeAnswers(<%= @question.id %>);
+  SubscribeComments(<%= @question.id %>);
+</script>
+
 <script type="text/javascript">
   window.addEventListener("load", () => {
     editQstBtn = document.querySelector(".editQstBtn");
@@ -164,7 +170,6 @@ h2 {
   //check for visibility for control buttons "Edit", "Delete" and comment ability
   for (var answer of answers_list) {
     if (gon.user_id && gon.user_id != 'guest') {
-      console.log('я здесь');
       answer.querySelector('.commentable').style.display = "inline-block";
     }
     var listBtn = answer.getElementsByClassName("controlBtn");
