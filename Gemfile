@@ -50,6 +50,7 @@ gem "bootsnap", require: false
 
 gem "aws-sdk-s3", require: false
 gem 'devise'
+gem "gon"
 gem "validate_url"
 
 group :development, :test do

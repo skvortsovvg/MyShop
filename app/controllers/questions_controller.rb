@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
-  before_action :set_question, except: %i[index new create]
+  before_action :set_question, except: %i[index new create new_comment]
+  after_action :publish_question, only: [:create]
 
   def index
     @questions = Question.all
@@ -24,6 +25,11 @@ class QuestionsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def new_comment
+    @question = Question.find(params[:question_id])
+    @comment = @question.comments.create(comment_params.merge(author: current_user))
   end
 
   def show
@@ -56,8 +62,22 @@ class QuestionsController < ApplicationController
 
   private
 
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast 'questions',
+                                 ApplicationController.render(
+                                   partial: 'questions/question_card',
+                                   locals: { question: @question, current_user: }
+                                 )
+  end
+
   def set_question
     @question = Question.with_attached_files.find(params[:id])
+  end
+
+  def comment_params
+    params.require(:comment).permit(:body)
   end
 
   def question_params

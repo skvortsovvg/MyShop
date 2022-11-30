@@ -45,10 +45,30 @@ h2 {
   display: none;
 }
 
-/*.disable {
-   pointer-events: none;
-   cursor: default;
-}*/
+/* Style the button that is used to open and close the collapsible content */
+.collapse {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapse:hover {
+  background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.collapsible {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
 </style>
 
 <h1>Question #<%= @question.id %></h1>
@@ -57,52 +77,109 @@ h2 {
   <%= render @question %>
 </article>
 
-<div>
-  <% if current_user %>
-    <section class="new_answer">
-      <%= form_with model: [@question, @new_answer], local: false do |form| %>
-        <div>
-          <%= form.label 'New answer' %><br>
-          <%= form.text_area :body, cols: 100, rows: 5 %>
-        </div>
-        <div>
-          <%= form.label :files %><br>
-          <%= form.file_field :files, multiple: true, direct_upload: true %>
-        </div>
-        </div>
-          Links:
-          <%= form.fields_for :links do |link| %><br>
-            <div>
-              <%= link.label :name %><br>
-              <%= link.text_field :name %>
-            </div>
-            <div>
-              <%= link.label :url %><br>
-              <%= link.text_field :url %>
-            </div>
-          <% end %>
-        </div>
-        <p>
-          <%= form.submit 'Add answer' %>
-        </p>
-      <% end %>
-    </section>
-  <% end %>
+<section id="question_comments">
+  <%= render @question.comments %>
+</section>
 
-  <section class="answers">
-    <h2>Answers:</h2>
-    <%= render Question.answers_best_first(@question) %>
+
+<% if current_user %>
+ <button type="button" class="collapse">Add new comment</button>
+  <section id="new_comment" class="collapsible">
+    <%= form_with model: [@question, @question.comments.new], local: false do |form| %>
+      <div>
+        <%= form.label 'Body' %><br>
+        <%= form.text_area :body, cols: 100, rows: 5 %>
+      </div>
+      <p>
+        <%= form.submit 'Add comment' %>
+      </p>
+    <% end %>
   </section>
-</div>
+  <button type="button" class="collapse">Add new answer</button>
+  <section id="new_answer" class="collapsible">
+    <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
+      <div>
+        <%= form.label 'New answer' %><br>
+        <%= form.text_area :body, cols: 100, rows: 5 %>
+      </div>
+      <div>
+        <%= form.label :files %><br>
+        <%= form.file_field :files, multiple: true, direct_upload: true %>
+      </div>
+      </div>
+        Links:
+        <%= form.fields_for :links do |link| %><br>
+          <div>
+            <%= link.label :name %><br>
+            <%= link.text_field :name %>
+          </div>
+          <div>
+            <%= link.label :url %><br>
+            <%= link.text_field :url %>
+          </div>
+        <% end %>
+      </div>
+      <p>
+        <%= form.submit 'Add answer' %>
+      </p>
+    <% end %>
+  </section>
+<% end %>
+
+<section id="answers">
+  <h2>Answers:</h2>
+  <%= render Question.answers_best_first(@question) %>
+</section>
+
+<script type="module">
+  import { SubscribeAnswers, SubscribeComments } from "channels"
+  SubscribeAnswers(<%= @question.id %>);
+  SubscribeComments(<%= @question.id %>);
+</script>
+
 <script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("load", () => {
     editQstBtn = document.querySelector(".editQstBtn");
-    editQstBtn.addEventListener("click", () => {
+    if (editQstBtn) {
+      editQstBtn.addEventListener("click", () => {
         document.querySelector(".edit_question").style.display = "block";
         document.querySelector(".question_body").style.display = "none";
         document.querySelector(".editQstBtn").style.display = "none";
       });
+    };
+
+    //collapsible buttons
+    var coll = document.getElementsByClassName("collapse");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
   });
+  
+  var answers_list = document.getElementsByClassName("answer");
+    
+  //check for visibility for control buttons "Edit", "Delete" and comment ability
+  for (var answer of answers_list) {
+    if (gon.user_id && gon.user_id != 'guest') {
+      answer.querySelector('.commentable').style.display = "inline-block";
+    }
+    var listBtn = answer.getElementsByClassName("controlBtn");
+    for (var btn of listBtn) {
+      if (gon.user_id == answer.dataset['authorId']){
+        btn.style.display = "inline-block";
+      }
+    }
+  };
+
   document.addEventListener("ajax:success", (resp) => {
     jsonData = resp.detail[0];
     answer_section = document.getElementById(`answer_${jsonData.answer_id}`);
