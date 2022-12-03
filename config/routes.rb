@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  get 'regards/regards'
-  devise_for :users
-  get 'users/regards', to: 'regards#index'
-
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  
   root "questions#index"
+
+  get 'regards/regards'
+  get 'users/regards', to: 'regards#index'
 
   concern :commentable do
     post :comments, action: :new_comment
