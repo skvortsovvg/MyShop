@@ -49,6 +49,6 @@ RSpec.describe FindForOauth do
         expect(authorization.provider).to eq auth.provider
         expect(authorization.uid).to eq auth.uid
       end
-    end 
+    end
   end
 end

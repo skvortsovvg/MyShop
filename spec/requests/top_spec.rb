@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Oauth", type: :request do
-
   describe "access top page" do
     it "can sign in user with Twitter account" do
       visit '/'
