@@ -16,7 +16,8 @@ class AnswersController < ApplicationController
     @answer.update(answer_params)
   end
 
-  def like # or dislike
+  # or dislike
+  def like
     vote = @answer.current_vote(current_user)
     like = params[:like]
 
