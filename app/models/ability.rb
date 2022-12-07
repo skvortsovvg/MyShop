@@ -23,6 +23,8 @@ private
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer, Comment], author: user
+    can :destroy, [Question, Answer, Comment], author: user
+    can :like, Answer
   end
 
 end
