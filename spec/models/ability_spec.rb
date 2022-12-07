@@ -21,15 +21,15 @@ RSpec.describe Ability do
 
   describe 'registered user' do
     let(:user) { FactoryBot.create :user }
-    let(:other_user) { FactoryBot.create :user }    
-    
+    let(:other_user) { FactoryBot.create :user }
+
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
 
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
-    
+
     it { should be_able_to :update, FactoryBot.create(:question, author: user), author: user }
     it { should_not be_able_to :update, FactoryBot.create(:question, author: other_user), author: user }
 
@@ -39,5 +39,4 @@ RSpec.describe Ability do
     it { should be_able_to :update, FactoryBot.create(:comment, author: user), author: user }
     it { should_not be_able_to :update, FactoryBot.create(:comment, author: other_user), author: user }
   end
-
 end

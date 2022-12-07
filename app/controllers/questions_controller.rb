@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, except: %i[index new create new_comment]
   after_action :publish_question, only: [:create]
 
-  authorize_resource 
+  authorize_resource
 
   def index
     @questions = Question.all

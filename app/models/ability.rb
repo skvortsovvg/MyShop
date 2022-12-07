@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)  
+  def initialize(user)
     if user
       user.admin ? amdin_abilities : user_abilities(user)
     else
@@ -9,7 +9,7 @@ class Ability
     end
   end
 
-private
+  private
 
   def guest_abilities
     can :read, :all
@@ -26,5 +26,4 @@ private
     can :destroy, [Question, Answer, Comment], author: user
     can :like, Answer
   end
-
 end
