@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
   before_action :set_answer, except: %i[create new_comment publish_answer]
   after_action :publish_answer, only: [:create]
 
+  authorize_resource
+
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
     nil
