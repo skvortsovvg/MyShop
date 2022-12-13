@@ -43,7 +43,10 @@
 
 <h1>Questions</h1>
 
-<%= link_to "New", new_question_path  %> 
+<% if can?(:create, Question)  %> 
+  <%= link_to "New", new_question_path  %>
+<% end  %> 
+
 <section id="questions">
   <%= render partial: "question_card", collection: @questions, as: :question %>
 </section>

@@ -12,9 +12,9 @@
       <% question.files.each do |file| %>
         <p id=<%="file_#{file.id}" %>>
           <%= link_to file.filename.to_s, url_for(file) %>
-          <% if question.author == current_user %>
+          <% if can?(:destroy, question)  %> 
             <%= link_to image_tag('trash-can-solid.svg', size: 12), question_delete_file_path(question, file_id: file), method: :delete, remote: true %>
-            <% end %>
+          <% end %>
         </p>
       <% end %>
     </div>
@@ -25,7 +25,7 @@
       <% question.links.each do |link| %>
         <p id=<%="link_#{link.id}" %>>
           <%= link_to link.name, link.url %>
-          <% if question.author == current_user and !link.new_record? %>
+          <% if can?(:update, question) && !link.new_record? %>
             <%= link_to image_tag('trash-can-solid.svg', size: 12), link_path(link), method: :delete %>
           <% end %>
         </p>
@@ -33,9 +33,11 @@
     </div>
   <% end %>
 </div>
-<% if question.author == current_user %>
+
+<% if can?(:update, question)  %> 
   <%= button_tag "Edit", class: "editQstBtn" %>
 <% end %>
+
 <section class="edit_question">
   <%= form_with model: question, local: false do |form| %>
     <div>

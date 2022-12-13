@@ -94,7 +94,7 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
 
-  config.include(OmniauthMacros)
+  # config.include(OmniauthMacros)
 end
 
-OmniAuth.config.test_mode = true
+# OmniAuth.config.test_mode = true
