@@ -28,5 +28,13 @@ Rails.application.routes.draw do
 
   resources :links, only: :destroy
 
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+      end
+    end
+  end
+
   mount ActionCable.server => '/cable'
 end
