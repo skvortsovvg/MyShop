@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe "Profiles API", type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => "application/json"} }
+  let(:headers) do
+    { "CONTENT_TYPE" => "application/json",
+      "ACCEPT" => "application/json" }
+  end
 
   describe "GET /api/v1/profiles/me" do
     context 'unauthorized' do
@@ -20,9 +22,9 @@ describe "Profiles API", type: :request do
     context 'authorized' do
       let(:me) { FactoryBot.create(:user) }
       let(:access_token) { FactoryBot.create(:access_token, resource_owner_id: me.id) }
-      
-      before { get '/api/v1/profiles/me', params: { access_token: access_token.token }, headers: headers }
- 
+
+      before { get '/api/v1/profiles/me', params: { access_token: access_token.token }, headers: }
+
       it "returns 200 ok" do
         expect(response.status).to eq 200
       end
@@ -59,9 +61,9 @@ describe "Profiles API", type: :request do
     context 'authorized' do
       let(:me) { FactoryBot.create(:user) }
       let(:access_token) { FactoryBot.create(:access_token, resource_owner_id: me.id) }
-      
-      before { get '/api/v1/profiles/users', params: { access_token: access_token.token }, headers: headers }
- 
+
+      before { get '/api/v1/profiles/users', params: { access_token: access_token.token }, headers: }
+
       it "returns 200 ok" do
         expect(response.status).to eq 200
       end

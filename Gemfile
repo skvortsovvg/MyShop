@@ -54,10 +54,10 @@ gem "gon"
 gem "validate_url"
 
 gem 'cancancan'
+gem 'doorkeeper'
 gem 'omniauth'
 gem 'omniauth-github'
 gem "omniauth-rails_csrf_protection"
-gem 'doorkeeper'
 
 gem 'active_model_serializers'
 gem 'oj'
