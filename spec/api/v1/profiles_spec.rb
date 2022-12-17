@@ -43,7 +43,7 @@ describe "Profiles API", type: :request do
     end
   end
 
-   describe "GET /api/v1/profiles/users" do
+  describe "GET /api/v1/profiles/users" do
     context 'unauthorized' do
       it "returns 401 if has not access_token" do
         get '/api/v1/profiles/users', headers: headers
