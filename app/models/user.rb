@@ -11,6 +11,10 @@ class User < ApplicationRecord
   has_many :voted_answers, through: :votes, source: :answer
   has_many :authorizations, dependent: :destroy
 
+  def admin?
+    admin
+  end
+
   def self.find_for_oauth(auth)
     FindForOauth.new(auth).call
   end

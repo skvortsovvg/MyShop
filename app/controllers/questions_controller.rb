@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, except: %i[index new create new_comment]
   after_action :publish_question, only: [:create]
 
