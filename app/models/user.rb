@@ -22,7 +22,6 @@ class User < ApplicationRecord
   end
 
   def has_subscribtion?(question)
-    self.subscribed_questions.include?(question)
+    subscribed_questions.include?(question)
   end
-
 end

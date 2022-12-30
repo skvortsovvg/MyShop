@@ -48,7 +48,7 @@ class AnswersController < ApplicationController
     AnswerChannel.broadcast_to(@answer.question,
                                { html: ApplicationController.render(
                                  partial: 'answers/answer',
-                                 locals: { answer: @answer, current_user: current_user }
+                                 locals: { answer: @answer, current_user: }
                                ),
                                  answer_id: @answer.id,
                                  current_user: current_user.id,

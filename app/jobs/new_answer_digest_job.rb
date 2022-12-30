@@ -1,5 +1,5 @@
 class NewAnswerDigestJob < ApplicationJob
-  def perform(*args)
+  def perform(*_args)
     DailyDigest.new.perform
   end
 end
