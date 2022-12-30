@@ -62,6 +62,14 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def subscribe
+    if current_user.has_subscribtion?(@question)
+      @question.subscribers.destroy(current_user)
+    else
+      @question.subscribers << current_user
+    end
+  end
+
   private
 
   def publish_question

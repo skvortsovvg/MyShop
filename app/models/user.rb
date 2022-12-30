@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :votes
   has_many :voted_answers, through: :votes, source: :answer
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions
+  has_many :subscribed_questions, through: :subscriptions, source: :question
 
   def admin?
     admin
@@ -18,4 +20,9 @@ class User < ApplicationRecord
   def self.find_for_oauth(auth)
     FindForOauth.new(auth).call
   end
+
+  def has_subscribtion?(question)
+    self.subscribed_questions.include?(question)
+  end
+
 end
