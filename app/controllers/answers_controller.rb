@@ -1,13 +1,12 @@
 class AnswersController < ApplicationController
   before_action :set_question, only: %i[create]
   before_action :set_answer, except: %i[create new_comment publish_answer]
-  after_action :publish_answer, only: [:create]
+  after_action :publish_answer, :send_digest, only: [:create]
 
   authorize_resource
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
-    nil
   end
 
   def edit
@@ -49,7 +48,7 @@ class AnswersController < ApplicationController
     AnswerChannel.broadcast_to(@answer.question,
                                { html: ApplicationController.render(
                                  partial: 'answers/answer',
-                                 locals: { answer: @answer, current_user: }
+                                 locals: { answer: @answer, current_user: current_user }
                                ),
                                  answer_id: @answer.id,
                                  current_user: current_user.id,
@@ -92,6 +91,10 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def send_digest
+    NewAnswerDigest.new.delay.perform(@answer)
+  end
 
   def set_question
     @question = Question.find(params[:question_id])
