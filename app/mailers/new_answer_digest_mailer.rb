@@ -1,6 +1,6 @@
 class NewAnswerDigestMailer < ApplicationMailer
-  def digest(answer)
+  def digest(answer, email)
     @answer = answer
-    mail to: answer.author.email
+    mail to: email
   end
 end

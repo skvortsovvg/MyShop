@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
+      current_user.subscribed_questions << @question
       redirect_to question_path(@question)
     else
       render :new

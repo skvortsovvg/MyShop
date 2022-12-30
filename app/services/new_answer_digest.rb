@@ -8,7 +8,9 @@ class NewAnswerDigest
 private
   
   def send_digest(answer)
-    NewAnswerDigestMailer.digest(answer).deliver_later
+    answer.question.subscribers.each do |user|
+       NewAnswerDigestMailer.digest(answer, user.email).deliver_later
+    end
   end
   
 end

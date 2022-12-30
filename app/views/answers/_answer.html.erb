@@ -13,6 +13,7 @@
     </div>
 
     <div class="answer_likes">
+      <%= render "answers/likes", answer: answer, current_user: current_user %>
     </div>
 
     <% if answer.files.attached? %>
