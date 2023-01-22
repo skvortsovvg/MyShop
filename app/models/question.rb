@@ -1,4 +1,8 @@
 class Question < ApplicationRecord
+
+  include PgSearch
+  pg_search_scope :search_everywhere, against: [:title, :body]
+
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_many :comments, dependent: :destroy, as: :commentable
