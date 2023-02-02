@@ -7,4 +7,10 @@
       <%= link_to 'Register', new_user_registration_path %>
     <% end %>
   </div>
+  <div>
+    <%= form_tag results_path, method: :get, role: 'search' do %>
+    <%= text_field_tag :query, params[:query] %>
+    <%= submit_tag "Искать", name: nil %>
+  </div>
+<% end %>
 </nav>

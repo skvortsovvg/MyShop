@@ -41,5 +41,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :characters
+  get 'results', to: 'results#index', as: 'results'
+
   mount ActionCable.server => '/cable'
 end

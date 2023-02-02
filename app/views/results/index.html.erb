@@ -1,0 +1,8 @@
+<h3>Результаты поиска по запросу <em><%= params[:query]%></em></h3>
+<% @search_results.each do |result| %>
+  <h4><%= link_to result.title, result %></h4>
+  <section id="questions">
+    <%= render partial: "questions/question_card", object: result, as: :question %>
+  </section>
+  <hr>
+<% end %>
