@@ -1,7 +1,7 @@
 class Question < ApplicationRecord
   include PgSearch
   # pg_search_scope :search_everywhere, against: [:title, :body]
-  multisearchable against: [:title, :body]
+  multisearchable against: %i[title body]
 
   after_save :reindex
 
@@ -23,7 +23,7 @@ class Question < ApplicationRecord
   scope :answers_best_first, ->(qst) { qst.answers.where(id: qst.best_answer_id) + qst.answers.where.not(id: qst.best_answer_id) }
 
   private
-  
+
   def reindex
     PgSearch::Multisearch.rebuild(Question)
   end

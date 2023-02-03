@@ -9,12 +9,12 @@ describe "Answers API", type: :request do
   describe "GET /api/v1/...answers" do
     context 'unauthorized' do
       it "returns 401 if has not access_token" do
-        get '/api/v1/questions/1/answers', headers: headers
+        get('/api/v1/questions/1/answers', headers:)
         expect(response.status).to eq 401
       end
 
       it "returns 401 if access_token is invalid" do
-        get '/api/v1/questions/1/answers', params: { access_token: "123" }, headers: headers
+        get('/api/v1/questions/1/answers', params: { access_token: "123" }, headers:)
         expect(response.status).to eq 401
       end
     end
