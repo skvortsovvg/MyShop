@@ -1,8 +1,7 @@
+# app/views/results/index.html.erb
 <h3>Результаты поиска по запросу <em><%= params[:query]%></em></h3>
-<% @search_results.each do |result| %>
-  <h4><%= link_to result.title, result %></h4>
-  <section id="questions">
-    <%= render partial: "questions/question_card", object: result, as: :question %>
-  </section>
+<% @search_results.each do |pg_search_document| %>
+  <h4><%= link_to pg_search_document.searchable.body, pg_search_document.searchable %></h4>
+  <div><%= pg_search_document.content.html_safe %></div>
   <hr>
 <% end %>
