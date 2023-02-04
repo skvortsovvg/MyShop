@@ -1,4 +1,10 @@
 class Question < ApplicationRecord
+  include PgSearch
+  # pg_search_scope :search_everywhere, against: [:title, :body]
+  multisearchable against: %i[title body]
+
+  after_save :reindex
+
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_many :comments, dependent: :destroy, as: :commentable
@@ -15,4 +21,10 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   scope :answers_best_first, ->(qst) { qst.answers.where(id: qst.best_answer_id) + qst.answers.where.not(id: qst.best_answer_id) }
+
+  private
+
+  def reindex
+    PgSearch::Multisearch.rebuild(Question)
+  end
 end

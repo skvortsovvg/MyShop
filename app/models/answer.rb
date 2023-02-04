@@ -1,4 +1,9 @@
 class Answer < ApplicationRecord
+  include PgSearch
+  multisearchable against: :body
+
+  after_save :reindex
+
   belongs_to :question
   belongs_to :author, class_name: "User"
   has_many :links, dependent: :destroy, as: :linkable
@@ -22,5 +27,11 @@ class Answer < ApplicationRecord
 
   def rating
     likes[true] - likes[false]
+  end
+
+  private
+
+  def reindex
+    PgSearch::Multisearch.rebuild(Answer)
   end
 end
