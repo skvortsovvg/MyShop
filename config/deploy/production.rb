@@ -33,7 +33,7 @@ set :rails_env, :production
 # --------------
  set :ssh_options, {
   keys: %w(C:\Users\vovan\.ssh\id_rsa /home/deployer/.ssh/id_ed25519),
-  # forward_agent: true,
+  forward_agent: true,
   auth_methods: %w(publickey password),
   port: 2222
  }
