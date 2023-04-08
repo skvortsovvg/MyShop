@@ -5,4 +5,10 @@ class Comment < ApplicationRecord
   after_save :reindex
 
   belongs_to :author, class_name: "User"
+
+  private
+
+  def reindex
+    PgSearch::Multisearch.rebuild(Comment)
+  end
 end

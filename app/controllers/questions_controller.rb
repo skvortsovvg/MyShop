@@ -33,6 +33,21 @@ class QuestionsController < ApplicationController
   def new_comment
     @question = Question.find(params[:question_id])
     @comment = @question.comments.create(comment_params.merge(author: current_user))
+    publish_comment
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+
+    CommentChannel.broadcast_to(@question,
+                                { html: ApplicationController.renderer.new(warden: warden).render(
+                                  partial: 'comments/comment',
+                                  locals: { comment: @comment }
+                                ),
+                                  commentable_type: @comment.commentable_type,
+                                  commentable_id: @comment.commentable_id,
+                                  comment_id: @comment.id,
+                                  author_id: @comment.author.id })
   end
 
   def show

@@ -46,9 +46,9 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     AnswerChannel.broadcast_to(@answer.question,
-                               { html: ApplicationController.render(
+                               { html: ApplicationController.renderer.new(warden: warden).render(
                                  partial: 'answers/answer',
-                                 locals: { answer: @answer, current_user: }
+                                 locals: { answer: @answer }
                                ),
                                  answer_id: @answer.id,
                                  current_user: current_user.id,
@@ -65,7 +65,7 @@ class AnswersController < ApplicationController
     return if @comment.errors.any?
 
     CommentChannel.broadcast_to(@answer.question,
-                                { html: ApplicationController.render(
+                                { html: ApplicationController.renderer.new(warden: warden).render(
                                   partial: 'comments/comment',
                                   locals: { comment: @comment }
                                 ),
