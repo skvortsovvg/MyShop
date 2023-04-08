@@ -75,56 +75,55 @@ h2 {
 
 <article class="question">
   <%= render @question %>
+
+  <section id="question_comments">
+    <%= render @question.comments %>
+  </section>
+
+  <% if current_user %>
+   <button type="button" class="collapse">Add new comment</button>
+    <section id="new_comment" class="collapsible">
+      <%= form_with model: [@question, @question.comments.new], local: false do |form| %>
+        <div>
+          <%= form.label 'Body' %><br>
+          <%= form.text_area :body, cols: 100, rows: 5 %>
+        </div>
+        <p>
+          <%= form.submit 'Add comment' %>
+        </p>
+      <% end %>
+    </section>
+    <button type="button" class="collapse">Add new answer</button>
+    <section id="new_answer" class="collapsible">
+      <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
+        <div>
+          <%= form.label 'New answer' %><br>
+          <%= form.text_area :body, cols: 100, rows: 5 %>
+        </div>
+        <div>
+          <%= form.label :files %><br>
+          <%= form.file_field :files, multiple: true, direct_upload: true %>
+        </div>
+        </div>
+          Links:
+          <%= form.fields_for :links do |link| %><br>
+            <div>
+              <%= link.label :name %><br>
+              <%= link.text_field :name %>
+            </div>
+            <div>
+              <%= link.label :url %><br>
+              <%= link.text_field :url %>
+            </div>
+          <% end %>
+        </div>
+        <p>
+          <%= form.submit 'Add answer' %>
+        </p>
+      <% end %>
+    </section>
+  <% end %>
 </article>
-
-<section id="question_comments">
-  <%= render @question.comments %>
-</section>
-
-
-<% if current_user %>
- <button type="button" class="collapse">Add new comment</button>
-  <section id="new_comment" class="collapsible">
-    <%= form_with model: [@question, @question.comments.new], local: false do |form| %>
-      <div>
-        <%= form.label 'Body' %><br>
-        <%= form.text_area :body, cols: 100, rows: 5 %>
-      </div>
-      <p>
-        <%= form.submit 'Add comment' %>
-      </p>
-    <% end %>
-  </section>
-  <button type="button" class="collapse">Add new answer</button>
-  <section id="new_answer" class="collapsible">
-    <%= form_with model: [@question, @question.answers.new], local: false do |form| %>
-      <div>
-        <%= form.label 'New answer' %><br>
-        <%= form.text_area :body, cols: 100, rows: 5 %>
-      </div>
-      <div>
-        <%= form.label :files %><br>
-        <%= form.file_field :files, multiple: true, direct_upload: true %>
-      </div>
-      </div>
-        Links:
-        <%= form.fields_for :links do |link| %><br>
-          <div>
-            <%= link.label :name %><br>
-            <%= link.text_field :name %>
-          </div>
-          <div>
-            <%= link.label :url %><br>
-            <%= link.text_field :url %>
-          </div>
-        <% end %>
-      </div>
-      <p>
-        <%= form.submit 'Add answer' %>
-      </p>
-    <% end %>
-  </section>
-<% end %>
 
 <section id="answers">
   <h2>Answers:</h2>
@@ -181,9 +180,12 @@ h2 {
   };
 
   document.addEventListener("ajax:success", (resp) => {
+    console.log(resp);
     jsonData = resp.detail[0];
-    answer_section = document.getElementById(`answer_${jsonData.answer_id}`);
-    answer_section.querySelector(".answer_likes").innerHTML = jsonData.html;
-    answer_section.querySelector(".answer_rating").innerText = jsonData.rating;
+    if(typeof(jsonData) == 'object') {
+      answer_section = document.getElementById(`answer_${jsonData.answer_id}`);
+      answer_section.querySelector(".answer_likes").innerHTML = jsonData.html;
+      answer_section.querySelector(".answer_rating").innerText = jsonData.rating;
+    }
   });
 </script>

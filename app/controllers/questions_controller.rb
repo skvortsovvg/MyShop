@@ -39,7 +39,7 @@ class QuestionsController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
 
-    CommentChannel.broadcast_to(@question, "new comment")
+    CommentChannel.broadcast_to(@question, @comment)
   end
 
   def show

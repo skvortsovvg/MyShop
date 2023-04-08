@@ -32,6 +32,8 @@ export function SubscribeAnswers(question_id) {
     },
 
     received(data) {
+      console.log('new answer');
+      console.log(data);
       var answers_section = document.getElementById("answers");
       var answers_list = document.getElementsByClassName("answer");
 
@@ -83,6 +85,7 @@ export function SubscribeComments(question_id) {
 
     connected() {
       this.perform('follow')
+      console.log('comments connected');
     },
 
     received(data) {
@@ -100,6 +103,9 @@ export function SubscribeComments(question_id) {
         btn = answer.querySelector(".collapse");
         btn.classList.toggle("active");
         btn.nextElementSibling.style.display = "none";
+
+      } else if(data.commentable_type == "Question"){
+        // use new_comment.js.erb
       }
     }
   });
