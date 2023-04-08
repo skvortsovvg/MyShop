@@ -59,7 +59,7 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:answer_id])
     @comment = @answer.comments.create(comment_params.merge(author: current_user))
     publish_comment
-    render partial: 'questions/new_comment'
+    render partial: 'questions/new_comment', formats: [:js]
   end
 
   def publish_comment
