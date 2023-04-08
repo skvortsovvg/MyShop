@@ -134,6 +134,7 @@ h2 {
   import { SubscribeAnswers, SubscribeComments } from "channels"
   SubscribeAnswers(<%= @question.id %>);
   SubscribeComments(<%= @question.id %>);
+  console.log('hello');
 </script>
 
 <script type="text/javascript">
