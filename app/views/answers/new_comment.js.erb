@@ -1,15 +1,15 @@
 
-<% if @comment.errors.any? %>
-  document.getElementById("new_comment").insertAdjacentHTML(
-    "afterbegin",
-    "<%= (j render 'shared/errors', object: @comment) %>"
-  );
-  setTimeout(function () {
-    document.querySelector(".errors").remove();
-  }, 2000);
-<% else %>
-  comments_list = document.getElementById("question_comments");
-  comments_list.insertAdjacentHTML('beforeend', "<%= (j render @comment) %>");
-  document.getElementById("comment_body").value = "";
-  document.getElementById("new_comment").style.display = "none";
-<% end %>
+// <% if @comment.errors.any? %>
+//   document.getElementById("new_comment").insertAdjacentHTML(
+//     "afterbegin",
+//     "<%= (j render 'shared/errors', object: @comment) %>"
+//   );
+//   setTimeout(function () {
+//     document.querySelector(".errors").remove();
+//   }, 2000);
+// <% else %>
+//   comments_list = document.getElementById("answer_comments");
+//   comments_list.insertAdjacentHTML('beforeend', "<%= (j render @comment) %>");
+//   document.getElementById("comment_body").value = "";
+//   document.getElementById("new_comment").style.display = "none";
+// <% end %>

@@ -39,15 +39,7 @@ class QuestionsController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
 
-    CommentChannel.broadcast_to(@question,
-                                { html: ApplicationController.renderer.new(warden: warden).render(
-                                  partial: 'comments/comment',
-                                  locals: { comment: @comment }
-                                ),
-                                  commentable_type: @comment.commentable_type,
-                                  commentable_id: @comment.commentable_id,
-                                  comment_id: @comment.id,
-                                  author_id: @comment.author.id })
+    CommentChannel.broadcast_to(@question, "new comment")
   end
 
   def show
