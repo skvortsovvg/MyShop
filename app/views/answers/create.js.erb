@@ -1,27 +1,27 @@
-// answers_list = document.getElementById("answers");
+answers_list = document.getElementById("answers");
 
-// <% if @answer.errors.any? %>
-//   answers_list.insertAdjacentHTML(
-//     "beforebegin",
-//     "<%= (j render 'shared/errors', object: @answer) %>"
-//   );
-//   setTimeout(function () {
-//     document.querySelector(".errors").remove();
-//   }, 2000);
-// <% else %>
-//   answers_list.insertAdjacentHTML('beforeend', "<%= (j render @answer) %>");
-//   document.getElementById("answer_body").value = "";
-//   document.getElementById("answer_files").value = "";
-//   document.getElementById("new_answer").style.display = "none";
+<% if @answer.errors.any? %>
+  answers_list.insertAdjacentHTML(
+    "beforebegin",
+    "<%= (j render 'shared/errors', object: @answer) %>"
+  );
+  setTimeout(function () {
+    document.querySelector(".errors").remove();
+  }, 2000);
+<% else %>
+  answers_list.insertAdjacentHTML('beforeend', "<%= (j render @answer) %>");
+  document.getElementById("answer_body").value = "";
+  document.getElementById("answer_files").value = "";
+  document.getElementById("new_answer").style.display = "none";
 
-//   answer_section = document.getElementById(
-//           `answer_${<%= @answer.id %>}`
-//         );
+  answer_section = document.getElementById(
+          `answer_${<%= @answer.id %>}`
+        );
      
-//   answer_section.querySelector(".editBtn").addEventListener("click", () => {
-//         answer_section
-//           .querySelector(".edit_answer")
-//           .classList.remove("edit_answer");
-//         answer_section.querySelector(".answer_buttons").style.display = "none";
-//       });
-// <% end %>
+  answer_section.querySelector(".editBtn").addEventListener("click", () => {
+        answer_section
+          .querySelector(".edit_answer")
+          .classList.remove("edit_answer");
+        answer_section.querySelector(".answer_buttons").style.display = "none";
+      });
+<% end %>
