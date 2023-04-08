@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
   before_action :set_user
 
-  # rescue_from CanCan::AccessDenied do |exeption|
-  #   redirect_to root_path, alert: exeption.message
-  # end
+  rescue_from CanCan::AccessDenied do |exeption|
+    redirect_to root_path, alert: exeption.message
+  end
 
   private
 
