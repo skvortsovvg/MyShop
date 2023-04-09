@@ -5,6 +5,7 @@ test:
   adapter: test
 
 production:
-  adapter: redis
-  url: redis://31.172.65.115:6379/1
-  # channel_prefix: QuestRooms
+  adapter: async
+  # adapter: redis
+  # url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  # channel_prefix: MyShop_production
