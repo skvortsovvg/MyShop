@@ -7,4 +7,4 @@ test:
 production:
   adapter: redis
   url: redis://31.172.65.115:6379/1
-  channel_prefix: QuestRooms
+  # channel_prefix: QuestRooms
