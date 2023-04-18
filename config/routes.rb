@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       resources :questions, shallow: true do
         resources :answers
       end
+      get :reports, controller: 'common'
+      post :report, controller: 'common'
     end
   end
 
