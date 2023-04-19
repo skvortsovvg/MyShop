@@ -21,3 +21,5 @@ module MyShop
     config.active_job.queue_adapter = :delayed_job
   end
 end
+
+Rails.application.config.autoload_paths += Dir[File.join(Rails.root, "lib", "redis.rb")].each {|l| require l }
