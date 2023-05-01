@@ -68,6 +68,8 @@ gem 'delayed_job_recurring'
 
 gem 'redis'
 
+gem 'unicorn'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
@@ -86,6 +88,7 @@ group :development do
   gem "capistrano-rails", require: false
   gem "capistrano-rvm", require: false
   gem "capistrano-passenger", require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'ed25519'
   gem 'bcrypt_pbkdf'
 end

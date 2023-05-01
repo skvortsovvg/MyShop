@@ -5,6 +5,7 @@ class Api::V1::CommonController < ApplicationController
     render json: Payment.last.payload
   end
   def reports
-    render json: Payment.all.map { |pay| { data: pay.payload, signature: pay.signature } }.join(",") 
+    # How to - https://ru.hexlet.io/qna/ruby/questions/kak-preobrazovat-stroku-v-hesh-ruby
+    render json: Payment.all.map { |pay| { data: JSON.parse(pay.payload)["order"], signature: pay.signature } } 
   end
 end
