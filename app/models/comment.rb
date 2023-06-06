@@ -5,6 +5,7 @@ class Comment < ApplicationRecord
   after_save :reindex
 
   belongs_to :author, class_name: "User"
+  belongs_to :commentable, polymorphic: true, touch: true
 
   private
 

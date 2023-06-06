@@ -4,7 +4,7 @@ class Answer < ApplicationRecord
 
   after_save :reindex
 
-  belongs_to :question
+  belongs_to :question, touch: true
   belongs_to :author, class_name: "User"
   has_many :links, dependent: :destroy, as: :linkable
   has_many :comments, dependent: :destroy, as: :commentable

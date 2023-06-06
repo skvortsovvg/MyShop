@@ -1,5 +1,7 @@
-<article class="comment" id=<%= "comment_#{comment.id}" %>>
-  <div class="text">
-    <%= comment.body %>
-  </div>
-</article>
+<% cache comment do %>
+  <article class="comment" id=<%= "comment_#{comment.id}" %>>
+    <div class="text">
+      <%= comment.body %>
+    </div>
+  </article>
+<% end %>

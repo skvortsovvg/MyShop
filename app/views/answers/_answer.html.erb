@@ -1,65 +1,67 @@
-<article class="answer" id=<%= "answer_#{answer.id}" %> data-author-id=<%= answer.author.id %>>
-    <div>
-      <span class="answer_rating" style="font-size: 20px;"><%= answer.rating %></span>
-      <% if answer.question.best_answer == answer %>
-        <%= image_tag('star-solid.svg', size: 15, style: 'width:20px') %>
-      <% else %>
-        <%= link_to_if(Ability.new(current_user).can?(:update, answer.question), image_tag('star-regular.svg', size: 15, style: 'width:20px;  margin-right: 10px'), best_question_path(answer.question, answer_id: answer.id), method: :put) %>
-      <% end %>
-      <%= answer.body %>
-    </div>
-    <div class="answer_date">
-      <%= answer.created_at %>
-    </div>
-
-    <div class="answer_likes">
-      <%= render "answers/likes", answer: answer %>
-    </div>
-
-    <% if answer.files.attached? %>
+<% cache answer do %>
+  <article class="answer" id=<%= "answer_#{answer.id}" %> data-author-id=<%= answer.author.id %>>
       <div>
-        <% answer.files.each do |file| %>
-          <p id=<%="file_#{file.id}"%>>
-            <%= link_to file.filename.to_s, url_for(file) %>
-            <% if Ability.new(current_user).can?(:update, answer)  %> 
-              <%= link_to image_tag('trash-can-solid.svg', size: 12), answer_delete_file_path(answer, file_id: file), method: :delete, remote: true %>
-            <% end %>
-          </p>
+        <span class="answer_rating" style="font-size: 20px;"><%= answer.rating %></span>
+        <% if answer.question.best_answer == answer %>
+          <%= image_tag('star-solid.svg', size: 15, style: 'width:20px') %>
+        <% else %>
+          <%= link_to_if(Ability.new(current_user).can?(:update, answer.question), image_tag('star-regular.svg', size: 15, style: 'width:20px;  margin-right: 10px'), best_question_path(answer.question, answer_id: answer.id), method: :put) %>
         <% end %>
+        <%= answer.body %>
       </div>
-    <% end %>
-    <% if answer.links.any? %>
-      <div>
-        Links:
-        <% answer.links.each do |link| %>
-          <p id=<%="link_#{link.id}" %>>
-            <%= link_to link.name, link.url %>
-            <% if Ability.new(current_user).can?(:update, answer) %> 
-              <%= link_to image_tag('trash-can-solid.svg', size: 12), link_path(link), method: :delete, remote: true %>
-            <% end %>
-          </p>
-        <% end %>
+      <div class="answer_date">
+        <%= answer.created_at %>
       </div>
-    <% end %>
-  <div class='answer_buttons'>
-      <%= button_to "Edit", edit_answer_path(answer), data: { answer_id: answer.id }, class: "editBtn controlBtn", method: :get, remote: true %> 
-      <%= button_to "Delete", answer_path(answer), form: {style: 'display:inline-block;'}, class: "editBtn controlBtn", method: :delete, remote: true %>
-  </div>
-  <section class="answer_comments">
-    <%= render answer.comments %>
-  </section>
-  <% if current_user %>
-    <button type="button" class="collapse commentable">Add new comment</button>
-    <section class="collapsible new_comment">
-      <%= form_with model: [answer, Comment.new], local: false do |form| %>
+
+      <div class="answer_likes">
+        <%= render "answers/likes", answer: answer %>
+      </div>
+
+      <% if answer.files.attached? %>
         <div>
-          <%= form.label 'Body' %><br>
-          <%= form.text_area :body, cols: 100, rows: 5 %>
+          <% answer.files.each do |file| %>
+            <p id=<%="file_#{file.id}"%>>
+              <%= link_to file.filename.to_s, url_for(file) %>
+              <% if Ability.new(current_user).can?(:update, answer)  %> 
+                <%= link_to image_tag('trash-can-solid.svg', size: 12), answer_delete_file_path(answer, file_id: file), method: :delete, remote: true %>
+              <% end %>
+            </p>
+          <% end %>
         </div>
-        <p>
-          <%= form.submit 'Add comment' %>
-        </p>
       <% end %>
+      <% if answer.links.any? %>
+        <div>
+          Links:
+          <% answer.links.each do |link| %>
+            <p id=<%="link_#{link.id}" %>>
+              <%= link_to link.name, link.url %>
+              <% if Ability.new(current_user).can?(:update, answer) %> 
+                <%= link_to image_tag('trash-can-solid.svg', size: 12), link_path(link), method: :delete, remote: true %>
+              <% end %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+    <div class='answer_buttons'>
+        <%= button_to "Edit", edit_answer_path(answer), data: { answer_id: answer.id }, class: "editBtn controlBtn", method: :get, remote: true %> 
+        <%= button_to "Delete", answer_path(answer), form: {style: 'display:inline-block;'}, class: "editBtn controlBtn", method: :delete, remote: true %>
+    </div>
+    <section class="answer_comments">
+      <%= render answer.comments %>
     </section>
-  <% end %>
-</article>
+    <% if current_user %>
+      <button type="button" class="collapse commentable">Add new comment</button>
+      <section class="collapsible new_comment">
+        <%= form_with model: [answer, Comment.new], local: false do |form| %>
+          <div>
+            <%= form.label 'Body' %><br>
+            <%= form.text_area :body, cols: 100, rows: 5 %>
+          </div>
+          <p>
+            <%= form.submit 'Add comment' %>
+          </p>
+        <% end %>
+      </section>
+    <% end %>
+  </article>
+<% end %>

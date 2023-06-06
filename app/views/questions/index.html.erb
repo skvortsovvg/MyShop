@@ -40,7 +40,9 @@
 <% end  %> 
 
 <section id="questions">
-  <%= render partial: "question_card", collection: @questions, as: :question %>
+  <% cache do %>
+    <%= render partial: "question_card", collection: @questions, as: :question %>
+  <% end %>
 </section>
 
 <script type="module">
